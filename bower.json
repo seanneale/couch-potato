@@ -3,5 +3,7 @@
   "version": "0.0.1",
   "main": "",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "j-toker": "^0.0.9"
+  }
 }
