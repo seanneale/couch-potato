@@ -8,4 +8,10 @@
 
 m1 = Movie.create(title: 'Dr Strange')
 m1.genres.create(name: "action")
-m1.users.create(email: 'test@testes.com')
+
+
+user = m1.users.create(email: 'test@example.com', password: '#$taawktljasktlw4aaglj')
+# user.email = 'test@example.com'
+# user.encrypted_password = 
+# m1.users.save!
+

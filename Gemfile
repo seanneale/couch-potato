@@ -16,7 +16,10 @@ gem 'themoviedb'
 gem 'rack-cors', :require => 'rack/cors'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-
+gem 'devise_token_auth'
+gem 'omniauth'
+gem 'bower'
+gem 'rack-cors', :require => 'rack/cors'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
