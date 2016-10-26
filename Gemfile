@@ -19,6 +19,8 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'devise_token_auth'
 gem 'omniauth'
 gem 'bower'
+gem 'faker'
+gem 'pry-rails'
 gem 'rack-cors', :require => 'rack/cors'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

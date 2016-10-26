@@ -14,16 +14,3 @@ private
 end
 
 
-# class API::GenresController < ApplicationController
-# 	before_action :authenticate_user!
-# 	before_action :get_genres
-
-# 	def index
-# 		render json: @genres
-# 	end
-
-# private	
-# 	def get_genres
-# 		@genres = Genre.all
-# 	end
-# end
