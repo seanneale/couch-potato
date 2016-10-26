@@ -4,6 +4,7 @@
   "main": "",
   "private": true,
   "dependencies": {
-    "j-toker": "^0.0.9"
+    "j-toker": "^0.0.9",
+    "bootstrap": "3.0.0"
   }
 }

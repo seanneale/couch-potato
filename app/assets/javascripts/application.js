@@ -16,6 +16,7 @@
 //= require pubsub-js/src/pubsub.js
 //= require j-toker/dist/jquery.j-toker.js
 //= require readyselector
+//= require bootstrap-sass/assets/javascripts/bootstrap-sprockets
 //= require_tree .
 
 $.auth.configure({
