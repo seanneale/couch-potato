@@ -38,8 +38,6 @@ module CouchPotato
     # Minimum Sass number precision required by bootstrap-sass
     ::Sass::Script::Value::Number.precision = [8, ::Sass::Script::Value::Number.precision].max
 
-
-
   end
 end
 
