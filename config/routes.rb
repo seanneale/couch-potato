@@ -15,5 +15,6 @@ Rails.application.routes.draw do
 	resources :login, only: [:index]
 	resources :home, only: [:index]	
 	get 'current_user' => "api/users#user_profile", :defaults => { :format => 'json' }
+	get 'upcoming' => "api/movies#upcoming", :defaults => { :format => 'json' }
 
 end
