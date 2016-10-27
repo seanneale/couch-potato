@@ -17,12 +17,14 @@
 
 # user = m1.users.create(email: 'test@example.com', password: '#$taawktljasktlw4aaglj')
 # # user.email = 'test@example.com'
-# # user.encrypted_password = 
+# # user.encrypted_password =
 # # m1.users.save!
 
-10.times do
-	User.create(email: Faker::Internet.email, password: Faker::Internet.password(8), name: Faker::Name.name, image: Faker::Avatar.image)
-end 
+# 10.times do
+# 	User.create(email: Faker::Internet.email, password: Faker::Internet.password(8), name: Faker::Name.name, image: Faker::Avatar.image)
+# end
+
+User.create(email: 'jacqie@couchpotato.com', password: 'ilovemovies', name: 'Jacqie', image: Faker::Avatar.image)
 
 Tmdb::Api.key('080c6e21243c377d80ac2754b8827b4f')
 
@@ -34,7 +36,8 @@ Tmdb::Api.key('080c6e21243c377d80ac2754b8827b4f')
 	@trailers["youtube"][0] ? @trailer = @trailers["youtube"][0]["source"] : @trailer = 'no source'
 	@credit_details = Tmdb::Movie.credits(@tmdb_id)
 	@director = @credit_details["crew"].find { |key| key['job'] == "Director"}
-	@director = @director["name"]
+	@director ? @director = @director["name"] : @director = "no source"
+
 	@writer = @credit_details["crew"].find { |key| key['job'] == "Screenplay" || key['job'] == "Writer"}
 	@writer ? @writer = @writer['name'] : @writer = "no source"
 	@cast = @credit_details["cast"]
