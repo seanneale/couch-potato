@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   include DeviseTokenAuth::Concerns::SetUserByToken
   # protect_from_forgery with: :exception
   before_action :get_current_user
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
   def authenticate_user!
     render json: {message: "Unauthorize"} if current_user.nil?
@@ -21,5 +22,11 @@ class ApplicationController < ActionController::Base
       @current_user = current_user
     end
     @current_user
+  end
+
+protected
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:image, :name, :email, :password])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:image, :name, :email, :password])
   end
 end
