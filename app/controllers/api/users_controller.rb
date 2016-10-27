@@ -1,6 +1,11 @@
 class API::UsersController < ApplicationController
 	before_action :authenticate_user!
 	before_action :get_user
+	before_action :get_users
+
+	def index
+		render json: @users
+	end
 
 	def show
 		render json: @user
@@ -22,6 +27,10 @@ class API::UsersController < ApplicationController
 	end
 
 private
+	def get_users
+		@users = User.all
+	end
+
 	def get_user
 		@user = User.find_by(id: params[:id])
 	end
@@ -33,4 +42,4 @@ private
 end
 
 
-# , email: params[:email], image: params[:image], uid: params[:email]     
+# , email: params[:email], image: params[:image], uid: params[:email]
