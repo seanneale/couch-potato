@@ -1,14 +1,12 @@
 class API::UserMoviesController < ApplicationController
 	before_action :authenticate_user!
-	before_action :get_user
+	before_action :get_usermovies
 
 	def index
-		puts @user
-		# render json: @user.movies.to_json(:include => {:users => {:only => :name}})
 	end
 
 private
-	def get_user
-		@user = User.find_by(id: params[:id])
+	def get_usermovies
+		@usermovies = current_user.user_movies.includes(:movie)
 	end
 end
