@@ -16,6 +16,7 @@ gem 'themoviedb'
 gem 'rack-cors', :require => 'rack/cors'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
+gem 'rails_12factor', group: :production
 gem 'devise_token_auth'
 gem 'omniauth'
 gem 'bower'
