@@ -25,9 +25,11 @@ function generateUpcomingMovies(movies){
 }
 function insertToUpcomingMovie(movie_id, release_date, movie_title, poster_img_path){
   console.log("starting to insert upcoming movies");
-  var template = '<img src="'+
+  var template = '<div class="hovereffect2"><img src="'+
                  poster_img_path +
-                 '">';
+                 '"><div class="overlay"><h2>' +
+                 movie_title +
+                 '</h2><a class="info" href="#">link here</a></div></div>';
   $('#upcomingMoviesBox').append(template);
 }
 
@@ -65,18 +67,23 @@ function generateUserMovies(usermovies){
     };
   }
 };
+
 function insertToSeenMovieList(movie_id, release_date, movie_title, background_img_path){
   console.log("Seen List --  " + movie_title)
-  var template = '<img src="'+
+  var template = '<div class="hovereffect"><img src="'+
                  background_img_path +
-                 '">';
+                 '"><div class="overlay"><h2>' +
+                 movie_title +
+                 '</h2><a class="info" href="#">link here</a></div></div>';
   $('#seenBox').append(template);
 }
 function insertToWantToWatchList(movie_id, release_date, movie_title, background_img_path){
   console.log("Want To Watch List -- " + movie_title)
-  var template = '<img src="'+
+  var template = '<div class="hovereffect"><img src="'+
                  background_img_path +
-                 '">';
+                 '"><div class="overlay"><h2>' +
+                 movie_title +
+                 '</h2><a class="info" href="#">link here</a></div></div>';
   $('#wantToWatchBox').append(template);
 }
                              // INITIALIZE \\
