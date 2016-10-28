@@ -1,15 +1,15 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
 $('.login.index').ready(function(){
-	console.log('login')
+	$('#signup').hide()
 
 	$('#login-form').on('submit', function(e){
 		e.preventDefault()
 		$.auth.emailSignIn({
-			email: $('#login-form input[name="email"]').val(),
-			password: $('#login-form input[name="password"]').val(),
+			email: $('#loginEmailInput').val(),
+			password: $('#loginPasswordInput').val(),
 		}).then(function(user){
-			alert('Welcome ' + user.name + '!');
+			window.location.href = "/home";
 		}).fail(function(resp){
 			alert('Authentication failure: ' + resp.errors.join(' '));
 		});
@@ -18,13 +18,30 @@ $('.login.index').ready(function(){
 	$('#signup-form').on('submit', function(e){
 		e.preventDefault()
 		$.auth.emailSignUp({
-			email: $('#signup-form input[name="email"]').val(),
-			password: $('#signup-form input[name="password"]').val(),
-			password_confirmation: $('#signup-form input[name="password_confirmation"]').val()
+			name: $('#signUpNameInput').val(),
+			email: $('#signUpEmailInput').val(),
+			password: $('#signUpPasswordInput').val(),
+			password_confirmation: $('#signUpPasswordConfirmInput').val()
 		}).then(function(user){
-			alert('Welcome ' + user.name + '!');
+			// alert('Welcome ' + user.name + '!');
+			window.location.href = "/home";
 		}).fail(function(resp){
 			alert('Authentication failure: ' + resp.errors.join(' '));
 		});
 	});
+
+	bindShowHideEventListeners()
 })
+
+function bindShowHideEventListeners(){
+
+	$('#showMeSignUp').on('click',function(){
+		$('#login').hide();
+		$('#signup').show();
+	})
+
+	$('#showMeLogIn').on('click',function(){
+		$('#login').show();
+		$('#signup').hide();
+	})
+}
