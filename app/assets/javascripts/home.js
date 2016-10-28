@@ -83,14 +83,16 @@ function insertToWantToWatchList(movie_id, release_date, movie_title, background
 //-------------------------------------------------------------------------\\
 $('.home.index').ready(function(){
 	console.log('home');
-	logout();
-
-  function logout(){
-  	$('#logout').on('click',function(){
-  		$.auth.signOut();
-  		window.location.href = "/login";
-  	});
-  }
-	getUpcomingMovies();
+  getUpcomingMovies();
   getUserMoviesLists();
 });
+
+
+	// logout();
+
+ //  function logout(){
+ //  	$('#logout').on('click',function(){
+ //  		$.auth.signOut();
+ //  		window.location.href = "/login";
+ //  	});
+ //  }
