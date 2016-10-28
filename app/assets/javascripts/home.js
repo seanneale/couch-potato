@@ -13,7 +13,7 @@ function getUpcomingMovies(){
 }
 function generateUpcomingMovies(movies){
   console.log("starting to generate upcoming movies");
-  var base_path = "https://image.tmdb.org/t/p/w185";
+  var base_path = "https://image.tmdb.org/t/p/original";
   for (var i = 0; i < movies.length; i++){
     // console.log(movies[i].poster_path)
     var poster_img_path = base_path + movies[i].poster_path;
@@ -34,7 +34,7 @@ function insertToUpcomingMovie(movie_id, release_date, movie_title, poster_img_p
                           // USER MOVIES \\
 //-------------------------------------------------------------------------\\
 
-function getUserWantToWatchList(){
+function getUserMoviesLists(){
   $.ajax({
       method: 'GET',
       url: '/api/user/movies'
@@ -49,7 +49,7 @@ function getUserWantToWatchList(){
 
 function generateUserMovies(usermovies){
   console.log("starting to generate upcoming movies");
-  var base_path = "https://image.tmdb.org/t/p/w500";
+  var base_path = "https://image.tmdb.org/t/p/original";
   var usermoviesArray = usermovies.user_movie
   // console.log(usermoviesArray[0].seen)
   for (var i = 0 ; i < usermoviesArray.length ; i++){
@@ -66,14 +66,14 @@ function generateUserMovies(usermovies){
   }
 };
 function insertToSeenMovieList(movie_id, release_date, movie_title, background_img_path){
-  console.log("inserted " + movie_title + "to Seen List")
+  console.log("Seen List --  " + movie_title)
   var template = '<img src="'+
                  background_img_path +
                  '">';
   $('#seenBox').append(template);
 }
 function insertToWantToWatchList(movie_id, release_date, movie_title, background_img_path){
-  console.log("inserted " + movie_title + "to Want To Watch List")
+  console.log("Want To Watch List -- " + movie_title)
   var template = '<img src="'+
                  background_img_path +
                  '">';
@@ -92,5 +92,5 @@ $('.home.index').ready(function(){
   	});
   }
 	getUpcomingMovies();
-  getUserWantToWatchList();
+  getUserMoviesLists();
 });

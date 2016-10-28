@@ -1,18 +1,66 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-#body_container {
-  margin-top: 65px;
-  background: yellow;
-  height: 700px;
-}
+.home.index {
 
-#upcomingMoviesBox {
-    background-color: #333;
-    overflow: auto;
-    white-space: nowrap;
-}
-#upcomingMoviesBox img {
-    display: inline-block;
-    margin: 10px;
+  #body_container {
+    margin-top: 65px;
+    background: yellow;
+    height: 700px;
+      #upcomingMoviesRow{
+        height: 50%;
+          #upcomingMoviesBox {
+            background-color: #333;
+            overflow-x: scroll;
+            white-space: nowrap;
+            height: 100%;
+          }
+
+          #upcomingMoviesBox img {
+              display: inline-block;
+              margin: 0 5px 0 5px;
+              height: 100%;
+          }
+      }
+
+      #userMoviesRow{
+        height: 60%;
+        background-color: blue;
+          .userMoviesColumns{
+            height: 90%;
+
+            #wantToWatchBox {
+              display:block;
+              margin:auto;
+              height: 100%;
+              width: 80%;
+              overflow-y: scroll;
+            }
+
+            #seenBox {
+              display:block;
+              margin:auto;
+              height: 100%;
+              width: 70%;
+              overflow-y: scroll;
+            }
+
+            #wantToWatchBox img {
+              display:block;
+              margin:auto;
+              width: 100%;
+            }
+
+            #seenBox img {
+              display:block;
+              margin:auto;
+              width: 100%;
+            }
+          }
+      }
+  }
+
+
+
+
 }
