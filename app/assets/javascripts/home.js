@@ -23,12 +23,15 @@ function generateUpcomingMovies(movies){
     insertToUpcomingMovie(movie_id, release_date, movie_title, poster_img_path);
   };
 }
+// <h2>' +
+//                  movie_title +
+//                  '</h2>
 function insertToUpcomingMovie(movie_id, release_date, movie_title, poster_img_path){
   console.log("starting to insert upcoming movies");
   var template = '<div class="hovereffect2" data-toggle="modal" data-target=".modal"><img src="'+
                  poster_img_path +
-                 '"><div class="overlay"><h2>' +
-                 movie_title +
+                 '"><div class="overlay"><h2>'+
+                 release_date+
                  '</h2><a class="info" href="#">++</a><a class="info" href="#">Seen</a></div></div>';
   $('#upcomingMoviesBox').append(template);
     $('a').off().click(function(e){
