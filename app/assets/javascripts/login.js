@@ -9,7 +9,7 @@ $('.login.index').ready(function(){
 			email: $('#loginEmailInput').val(),
 			password: $('#loginPasswordInput').val(),
 		}).then(function(user){
-			window.location.href = "/home";
+			window.location.href = "/";
 		}).fail(function(resp){
 			alert('Authentication failure: ' + resp.errors.join(' '));
 		});
@@ -24,7 +24,7 @@ $('.login.index').ready(function(){
 			password_confirmation: $('#signUpPasswordConfirmInput').val()
 		}).then(function(user){
 			// alert('Welcome ' + user.name + '!');
-			window.location.href = "/home";
+			window.location.href = "/";
 		}).fail(function(resp){
 			alert('Authentication failure: ' + resp.errors.join(' '));
 		});
