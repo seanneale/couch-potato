@@ -2,7 +2,7 @@
 // All this logic will automatically be available in application.js.
 $('.login.index').ready(function(){
 	console.log('login')
-	
+
 	$('#login-form').on('submit', function(e){
 		e.preventDefault()
 		$.auth.emailSignIn({
