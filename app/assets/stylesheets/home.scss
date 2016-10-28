@@ -4,7 +4,7 @@
 #body_container {
   margin-top: 65px;
   background: yellow;
-  height: 300px;
+  height: 700px;
 }
 
 #upcomingMoviesBox {
@@ -12,7 +12,7 @@
     overflow: auto;
     white-space: nowrap;
 }
-// #upcomingMoviesBox img {
-//     display: inline-block;
-//     padding: 14px;
-// }
+#upcomingMoviesBox img {
+    display: inline-block;
+    margin: 10px;
+}

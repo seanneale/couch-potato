@@ -1,5 +1,5 @@
 class API::UserMoviesController < ApplicationController
-	before_action :authenticate_user!
+  before_action :authenticate_user!
 	before_action :get_usermovies, only: [:index]
   before_action :get_usermovie, only: [:update, :destroy]
 
@@ -8,19 +8,34 @@ class API::UserMoviesController < ApplicationController
 
   def create
     if !UserMovie.where(check_user_movie_params).present?
-      UserMovie.create(user_movie_params)
+      @usermovie = UserMovie.create(user_movie_params)
+        if @usermovie.save
+          head 201
+        else
+          render json: {message: 'UserMovie Cannot Be Saved'}, status: 404
+        end
       puts "User Movie Created"
     else
       puts "User Movie Already Exists"
+      render json: {message: 'User Movie Already Exists'}, status: 404
     end
   end
 
   def update
     @usermovie.assign_attributes(user_preference_params)
+    if @usermovie.save
+      head 201
+    else
+      render json: {message: 'UserMovie Cannot Be Saved'}, status: 404
+    end
   end
 
   def destroy
-    @usermovie.destroy
+    if @usermovie.destroy
+      head 201
+    else
+      render json: {message: 'UserMovie Cannot Be Deleted'}, status: 404
+    end
   end
 
 private
@@ -31,7 +46,7 @@ private
   def get_usermovie
     @usermovie = UserMovie.find_by(id: params[:id])
     if @usermovie.nil?
-      render json: {message: "Cannot find #{params[:id]}"}, status: 404
+      render json: {message: "Cannot find User Movie"}, status: 404
     end
   end
 
