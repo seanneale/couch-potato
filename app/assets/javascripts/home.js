@@ -25,12 +25,17 @@ function generateUpcomingMovies(movies){
 }
 function insertToUpcomingMovie(movie_id, release_date, movie_title, poster_img_path){
   console.log("starting to insert upcoming movies");
-  var template = '<div class="hovereffect2"><img src="'+
+  var template = '<div class="hovereffect2" data-toggle="modal" data-target=".modal"><img src="'+
                  poster_img_path +
                  '"><div class="overlay"><h2>' +
                  movie_title +
-                 '</h2><a class="info" href="#">link here</a></div></div>';
+                 '</h2><a class="info" href="#">++</a><a class="info" href="#">Seen</a></div></div>';
   $('#upcomingMoviesBox').append(template);
+    $('a').off().click(function(e){
+      e.preventDefault();
+      e.stopPropagation()
+      console.log("link clicked")
+    })
 }
 
                           // USER MOVIES \\
@@ -70,21 +75,32 @@ function generateUserMovies(usermovies){
 
 function insertToSeenMovieList(movie_id, release_date, movie_title, background_img_path){
   console.log("Seen List --  " + movie_title)
-  var template = '<div class="hovereffect"><img src="'+
+  var template = '<div class="hovereffect" data-toggle="modal" data-target=".modal"><img src="'+
                  background_img_path +
                  '"><div class="overlay"><h2>' +
                  movie_title +
                  '</h2><a class="info" href="#">link here</a></div></div>';
   $('#seenBox').append(template);
+    $('a').off().click(function(e){
+      e.preventDefault();
+      e.stopPropagation()
+      console.log("link clicked")
+    })
 }
 function insertToWantToWatchList(movie_id, release_date, movie_title, background_img_path){
   console.log("Want To Watch List -- " + movie_title)
   var template = '<div class="hovereffect"><img src="'+
                  background_img_path +
-                 '"><div class="overlay"><h2>' +
+                 '"><div class="overlay" data-toggle="modal" data-target=".modal"><h2>' +
                  movie_title +
                  '</h2><a class="info" href="#">link here</a></div></div>';
   $('#wantToWatchBox').append(template);
+    $('a').off().click(function(e){
+      e.preventDefault();
+      e.stopPropagation()
+      console.log("link clicked")
+    })
+
 }
                              // INITIALIZE \\
 //-------------------------------------------------------------------------\\
@@ -92,6 +108,7 @@ $('.home.index').ready(function(){
 	console.log('home');
   getUpcomingMovies();
   getUserMoviesLists();
+
 });
 
 
