@@ -16,7 +16,7 @@ class API::MoviesController < ApplicationController
 		render json: @movies
 	end
 
-private	
+private
 	def get_movies
 		@movies = Movie.all
 	end
@@ -46,7 +46,7 @@ private
 			writer: @writer,
 			cast: @cast,
 			loved_counter: 0,
-			unloved_counter: 0	
+			unloved_counter: 0
 		}
 	end
 end

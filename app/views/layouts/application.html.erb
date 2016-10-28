@@ -6,12 +6,11 @@
 
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
-    
+
   </head>
 
   <body>
-	
-
+    <%= render 'partials/header' %>
 
   	<div class="<%= controller_name %> <%= action_name %>">
 	    <%= yield %>

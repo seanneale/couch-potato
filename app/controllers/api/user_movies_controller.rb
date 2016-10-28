@@ -1,7 +1,7 @@
 class API::UserMoviesController < ApplicationController
 	before_action :authenticate_user!
-	before_action :get_usermovies
-  before_action :get_usermovie
+	before_action :get_usermovies, only: [:index]
+  before_action :get_usermovie, only: [:update, :destroy]
 
 	def index
 	end
@@ -43,7 +43,4 @@ private
   def user_preference_params
     params.require(:usermovie).permit(:seen, :rated)
   end
-
-
-
 end

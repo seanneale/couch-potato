@@ -21,7 +21,7 @@ function getInfoForProfilePage(){
 		gettingUserMovieLibrary(resp.id);
 	})
 };
-	
+
 
 $('.profile.index').ready(function(){
 	getInfoForProfilePage();
