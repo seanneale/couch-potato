@@ -1,3 +1,4 @@
+# TODO to keep? Bonus
 class API::GenresController < ApplicationController
 	before_action :authenticate_user!
 	before_action :get_genres
@@ -11,7 +12,7 @@ class API::GenresController < ApplicationController
 		render json: @genre
 	end
 
-private	
+private
 	def get_genres
 		@genres = Genre.all
 	end

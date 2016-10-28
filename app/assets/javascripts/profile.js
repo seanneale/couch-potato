@@ -7,21 +7,21 @@ function generateProfilePage(resp){
 }
 
 function gettingUserMovieLibrary(id){
-	console.log(id)
+	console.log(id);
 }
 
 
 function getInfoForProfilePage(){
 	$.ajax({
 		method: 'GET',
-		url: '/current_user'
+		url: '/api/user'
 	}).success(function(resp){
 		//function that builds the user's profile page
 		generateProfilePage(resp);
 		gettingUserMovieLibrary(resp.id);
-	})
-};
-	
+	});
+}
+
 
 $('.profile.index').ready(function(){
 	getInfoForProfilePage();
@@ -35,4 +35,4 @@ $('.profile.index').ready(function(){
 
 	// code for signingout
 	// $.auth.signOut();
-})
+});

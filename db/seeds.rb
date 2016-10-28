@@ -45,7 +45,7 @@ Tmdb::Api.key('080c6e21243c377d80ac2754b8827b4f')
 	@cast[1] ? @cast0 = @cast[1]["name"] : @cast0 = 'no source'
 	@cast[2] ? @cast0 = @cast[2]["name"] : @cast0 = 'no source'
 	@cast = "#{@cast0}, #{@cast1} & #{@cast2}"
-	Movie.create(tmdb_id: movie.id, title: movie.title, release_date: movie.release_date, poster_path: movie.poster_path, overview: movie.overview, background_path: movie.backdrop_path, trailer_path: @trailer, director: @director, writer: @writer, cast: @cast, loved_counter: 0, unloved_counter: 0)
+	Movie.create(tmdb_id: movie.id, title: movie.title, release_date: movie.release_date, poster_path: movie.poster_path, overview: movie.overview, background_path: movie.backdrop_path, trailer_path: @trailer, director: @director, writer: @writer, cast: @cast, loved_counter: 0, unloved_counter: 0, upcoming: :false)
 end
 
 @genres = Tmdb::Genre.list

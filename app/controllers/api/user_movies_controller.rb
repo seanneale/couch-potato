@@ -1,7 +1,7 @@
 class API::UserMoviesController < ApplicationController
 	before_action :authenticate_user!
-	before_action :get_usermovies
-  before_action :get_usermovie
+	before_action :get_usermovies, only: [:index]
+  before_action :get_usermovie, only: [:update, :destroy]
 
 	def index
 	end
@@ -30,6 +30,9 @@ private
 
   def get_usermovie
     @usermovie = UserMovie.find_by(id: params[:id])
+    if @usermovie.nil?
+      render json: {message: "Cannot find #{params[:id]}"}, status: 404
+    end
   end
 
   def user_movie_params
@@ -43,7 +46,4 @@ private
   def user_preference_params
     params.require(:usermovie).permit(:seen, :rated)
   end
-
-
-
 end

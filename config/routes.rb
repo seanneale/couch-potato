@@ -1,20 +1,29 @@
 Rails.application.routes.draw do
-  mount_devise_token_auth_for 'User', at: 'auth'
-# For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+    mount_devise_token_auth_for 'User', at: 'auth'
+
     namespace :api do
-        resources :movies, except: [:new, :edit, :destroy, :create], :defaults => { :format => 'json' }
-        resources :genres, only: [:index, :show], :defaults => { :format => 'json' }
-        get    '/user', to: 'users#show'
-        post   '/user', to: 'users#create'
-        put    '/user', to: 'users#update'
-        delete '/user', to: 'users#destroy'
+        # publicly accessable movies
+        resources :movies, only: [:index]
+        get '/movies/upcoming' => "movies#upcoming"
+
+        # get user info
+        get '/user' => "users#user_profile"
+
         scope :user do
-            resources :movies, except: [:new, :edit, :show], controller: 'user_movies', :defaults => { :format => 'json' }
+            # Bookmark and rate movies for current_user
+            resources :movies, except: [:new, :edit, :show], controller: 'user_movies', as: 'user_movies'
         end
+
+        # TODO to keep? Bonus
+        resources :genres, only: [:index, :show]
     end
+
+    # static auth page for login/signup
+    resources :auth, only: [:index]
+
+    # static profile page for current_user info and all bookmarked
     resources :profile, only: [:index]
-    resources :login, only: [:index]
-    resources :home, only: [:index]
-    get 'current_user' => "api/users#user_profile", :defaults => { :format => 'json' }
-    get 'upcoming' => "api/movies#upcoming", :defaults => { :format => 'json' }
+
+    # static home page with upcoming movies and user's followed
+    root "home#index"
 end
