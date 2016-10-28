@@ -8,12 +8,14 @@ class API::MoviesController < ApplicationController
 
 	def upcoming
 		Tmdb::Api.key('080c6e21243c377d80ac2754b8827b4f')
-		@movies = Tmdb::Movie.upcoming
-		@movies.each do |movie|
-			set_movie_params movie
-			Movie.create_with(@movie_params).find_or_create_by(tmdb_id: movie.id)
-		end
-		render json: @movies
+    @movies = Tmdb::Movie.upcoming
+    @upcomings = []
+    @movies.each do |movie|
+        set_movie_params movie
+        @upcoming = Movie.create_with(@movie_params).find_or_create_by(tmdb_id: movie.id)
+        @upcomings.push(@upcoming)
+    end
+    render json: @upcomings
 	end
 
 private
@@ -24,7 +26,7 @@ private
 	def set_movie_params movie
 		@tmdb_id = movie.id
 		@trailers = Tmdb::Movie.trailers(@tmdb_id)
-		@trailers["youtube"][0] ? @trailer = @trailers["youtube"][0]["source"] : @trailer = 'no source'
+		@trailers["youtube"] && @trailers["youtube"][0] ? @trailer = @trailers["youtube"][0]["source"] : @trailer = 'no source'
 		@credit_details = Tmdb::Movie.credits(@tmdb_id)
 		@director = @credit_details["crew"].find { |key| key['job'] == "Director"}
 		@director ? @director = @director["name"] : @director = "no source"
