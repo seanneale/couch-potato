@@ -1,10 +1,10 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
-$('.login.index').ready(function(){
-	$('#signup').hide()
+$('.auth.index').ready(function(){
+	$('#signup').hide();
 
 	$('#login-form').on('submit', function(e){
-		e.preventDefault()
+		e.preventDefault();
 		$.auth.emailSignIn({
 			email: $('#loginEmailInput').val(),
 			password: $('#loginPasswordInput').val(),
@@ -16,7 +16,7 @@ $('.login.index').ready(function(){
 	});
 
 	$('#signup-form').on('submit', function(e){
-		e.preventDefault()
+		e.preventDefault();
 		$.auth.emailSignUp({
 			name: $('#signUpNameInput').val(),
 			email: $('#signUpEmailInput').val(),
@@ -30,18 +30,18 @@ $('.login.index').ready(function(){
 		});
 	});
 
-	bindShowHideEventListeners()
-})
+	bindShowHideEventListeners();
+});
 
 function bindShowHideEventListeners(){
 
 	$('#showMeSignUp').on('click',function(){
 		$('#login').hide();
 		$('#signup').show();
-	})
+	});
 
 	$('#showMeLogIn').on('click',function(){
 		$('#login').show();
 		$('#signup').hide();
-	})
+	});
 }

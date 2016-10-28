@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     end
 
     # static auth page for login/signup
-    resources :login, only: [:index] # TODO change login to auth
+    resources :auth, only: [:index]
 
     # static profile page for current_user info and all bookmarked
     resources :profile, only: [:index]

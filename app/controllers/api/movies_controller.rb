@@ -6,6 +6,7 @@ class API::MoviesController < ApplicationController
 		render json: @movies
 	end
 
+	# TODO make this a task
 	def upcoming
 		Tmdb::Api.key('080c6e21243c377d80ac2754b8827b4f')
     @movies = Tmdb::Movie.upcoming

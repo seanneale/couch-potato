@@ -30,6 +30,9 @@ private
 
   def get_usermovie
     @usermovie = UserMovie.find_by(id: params[:id])
+    if @usermovie.nil?
+      render json: {message: "Cannot find #{params[:id]}"}, status: 404
+    end
   end
 
   def user_movie_params
