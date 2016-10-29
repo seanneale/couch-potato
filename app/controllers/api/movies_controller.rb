@@ -1,9 +1,14 @@
 class API::MoviesController < ApplicationController
 	before_action :authenticate_user!
 	before_action :get_movies
+	before_action :get_movie
 
 	def index
 		render json: @movies
+	end
+
+	def show
+		render json: @movie
 	end
 
 	# TODO make this a task
@@ -24,6 +29,10 @@ class API::MoviesController < ApplicationController
 private
 	def get_movies
 		@movies = Movie.all
+	end
+
+	def get_movie
+		@movie = Movie.find_by(id: params[:id])
 	end
 
 end
