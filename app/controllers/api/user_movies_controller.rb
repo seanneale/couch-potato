@@ -9,11 +9,12 @@ class API::UserMoviesController < ApplicationController
   def create
     if !UserMovie.where(check_user_movie_params).present?
       @usermovie = UserMovie.create(user_movie_params)
-        if @usermovie.save
-          head 201
-        else
-          render json: {message: 'UserMovie Cannot Be Saved'}, status: 404
-        end
+        # if @usermovie.save
+        #   {message: 'UserMovie Saved'}
+        # else
+        #   {message: 'UserMovie Cannot Be Saved'}, status: 404
+        # end
+      render json: @usermovie
       puts "User Movie Created"
     else
       puts "User Movie Already Exists"
