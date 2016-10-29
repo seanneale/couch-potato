@@ -37,7 +37,7 @@ function insertToUpcomingMovie(movie_id, release_date, movie_title, poster_path)
                  '</h2><a class="info" href="#">++</a><a class="info" href="#">Seen</a></div></div>';
   $('#upcomingMoviesBox').append(template);
     click_a_NoRedirect();
-    getMovieModal()
+    getMovieModal();
 }
 
                           // USER MOVIES \\
@@ -159,9 +159,11 @@ function insertToModal(movie_title, poster_path, trailer_path, overview, release
                                   '</h4><p>Cast:</p><h4>' +
                                   cast +
                                   '</h4></div>';
-  var trailerAndPlotTemplate    = '<div class="embed-responsive embed-responsive-4by3"><iframe class="embed-responsive-item" src="' +
+  var trailerAndPlotTemplate    = '<div class="embed-responsive embed-responsive-4by3" ><iframe class="embed-responsive-item" src="' +
                                   trailer_path +
-                                  '"></iframe></div>';
+                                  '"></iframe></div><div><p>' +
+                                  overview +
+                                  '</p></div>';
 
   $('.modal-title').html(movie_title);
   $('#posterAndDetails').html(posterAndDetailsTemplate);
@@ -184,14 +186,20 @@ function click_a_NoRedirect(){
   });
 }
 
+function turnYoutubeVideoOff(){
+  $('.modal').on('hidden.bs.modal', function () {
+    $('.modal iframe').removeAttr('src');
+  })
+
+}
 
                          // INITIALIZE \\
 //----------------------------------------------------------------\\
 $('.home.index').ready(function(){
-	console.log('home');
+  console.log('home');
   getUpcomingMovies();
   getUserMoviesLists();
-
+  turnYoutubeVideoOff();
 });
 
 
