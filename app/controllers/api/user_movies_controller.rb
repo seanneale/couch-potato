@@ -51,14 +51,14 @@ private
   end
 
   def user_movie_params
-    params.require(:usermovie).permit(:movie_id, :user_id, :seen, :rated)
+    params.permit(:movie_id, :user_id, :seen, :rated)
   end
 
   def check_user_movie_params
-    params.require(:usermovie).permit(:movie_id, :user_id)
+    params.permit(:movie_id, :user_id)
   end
 
   def user_preference_params
-    params.require(:usermovie).permit(:seen, :rated)
+    params.permit(:seen, :rated)
   end
 end
