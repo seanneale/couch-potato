@@ -35,7 +35,6 @@ class API::UserMoviesController < ApplicationController
   def destroy
     if @usermovie.destroy
       render json: {message: 'usermovie destroyed'}
-    end
     else
       render json: {message: 'UserMovie Cannot Be Deleted'}, status: 404
     end

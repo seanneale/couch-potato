@@ -1,8 +1,90 @@
 
 
+                    // Modal Information
+//---------------------------------------------------\\
+
+function getMovieModal(){
+
+  $('.thisMovie').off().click(function(){
+    console.log("Movie Clicked");
+    var movieId = $(this).attr('id');
+    console.log("This Movie's ID is " + movieId);
+    getMovieDetails(movieId);
+  }); // close '$.thisMovie'
+
+}; // close getMovieModal
+
+
+function getMovieDetails(movieId){
+
+  $.ajax({
+    method   : 'GET',
+    url      : '/api/movies/'+movieId
+  }).success(function(resp){
+    generateMovieDetails(resp);
+    // console.log('successful in getting this movie');
+    // console.log(resp.title);
+  }); // close success, ajax
+
+}; // close getMovieDetails
+
+
+function generateMovieDetails(movie){
+
+  var poster_base_path   = "https://image.tmdb.org/t/p/original"
+  var trailer_base_path  = "https://www.youtube.com/embed/"
+  // "https://www.youtube.com/watch?v="
+  var movie_title        = movie.title;
+  var poster_path        = poster_base_path  + movie.poster_path;
+  var trailer_path       = trailer_base_path + movie.trailer_path;
+  var overview           = movie.overview;
+  var release_date       = movie.release_date;
+  var director           = movie.director;
+  var writer             = movie.writer;
+  var cast               = movie.cast;
+  insertToModal(movie_title, poster_path, trailer_path, overview, release_date, director, writer, cast)
+  // console.log(movie.title)
+  // console.log(movie.trailer_path)
+
+}; // close generateMovieDetails
+
+
+function insertToModal(movie_title, poster_path, trailer_path, overview, release_date, director, writer, cast){
+
+  // console.log(movie_title)
+  // Title: Release Date: Director: Writer: Case:"
+  var posterAndDetailsTemplate  = '<div id="modalPosterImg"><img src="' +
+                                  poster_path                           +
+                                  '"></div><div><p>Title:</p><h4>'      +
+                                  movie_title                           +
+                                  '</h4><p>Release Date:</p><h4>'       +
+                                  release_date                          +
+                                  '</h4><p>Director:</p><h4>'           +
+                                  director                              +
+                                  '</h4><p>Writer:</p><h4>'             +
+                                  writer                                +
+                                  '</h4><p>Cast:</p><h4>'               +
+                                  cast                                  +
+                                  '</h4></div>';
+
+  var trailerAndPlotTemplate    = '<div class="embed-responsive embed-responsive-4by3">' +
+                                  '<iframe class="embed-responsive-item" src="'          +
+                                  trailer_path                                           +
+                                  '"></iframe></div><div><h4>'                           +
+                                  overview                                               +
+                                  '</h4></div>';
+
+  $('.modal-title').html(movie_title);
+  $('#posterAndDetails').html(posterAndDetailsTemplate);
+  $('#trailerAndPlot').html(trailerAndPlotTemplate)
+
+
+}; // close insertToModal
+
+
 
                      // UPCOMING MOVIES
-//----------------------------------------------------------------\\
+//---------------------------------------------------\\
 
 function getUpcomingMovies(){
 
@@ -59,7 +141,7 @@ function insertToUpcomingMovie(movie_id, release_date, movie_title, poster_path)
 
 
                      // USER MOVIES
-//----------------------------------------------------------------\\
+//---------------------------------------------------\\
 
 
 function getUserMoviesLists(){
@@ -142,91 +224,70 @@ function insertToWantToWatchList(movie_id, release_date, movie_title, postser_pa
 
 
 
-                    // Modal Information
-//----------------------------------------------------------------\\
 
-function getMovieModal(){
+                    // Add New UserMovie '++'' or 'Seen'
+//---------------------------------------------------\\
 
-  $('.thisMovie').off().click(function(){
-    console.log("Movie Clicked");
-    var movieId = $(this).attr('id');
-    console.log("This Movie's ID is " + movieId);
-    getMovieDetails(movieId);
-  }); // close '$.thisMovie'
+function ajaxAppendUserMovie(createUserMovieData){
+    $.ajax({
+      method      : 'POST',
+      url         : '/api/user/movies',
+      data        : createUserMovieData,
+      dataType    : 'json',
+      success     : function(resp) {
+                      console.log('finished running ajax POST usermovies');
+                      // console.log(resp);
+                      // console.log(resp.movie_id);
+                      appendNewUserMovie(resp);
+                    },
+      error       : function(resp) {
+                      console.log(resp);
+                      console.log("ajax error");
+                    }
+    }); // close success, ajax
+}
 
-}; // close getMovieModal
+function appendNewUserMovie(movie){
+  var movieId = movie.movie_id
+  if (movie.seen) {
+    ajaxAppendSeenMovie(movieId)
+    } else {
+            ajaxAppendNotSeenMovie(movieId)
+    };
 
-
-function getMovieDetails(movieId){
-
+}
+function ajaxAppendSeenMovie(movieId){
   $.ajax({
     method   : 'GET',
     url      : '/api/movies/'+movieId
   }).success(function(resp){
-    generateMovieDetails(resp);
-    // console.log('successful in getting this movie');
-    // console.log(resp.title);
+    getSeenMovieDetails(resp);
   }); // close success, ajax
-
-}; // close getMovieDetails
-
-
-function generateMovieDetails(movie){
-
-  var poster_base_path   = "https://image.tmdb.org/t/p/original"
-  var trailer_base_path  = "https://www.youtube.com/embed/"
-  // "https://www.youtube.com/watch?v="
-  var movie_title        = movie.title;
-  var poster_path        = poster_base_path  + movie.poster_path;
-  var trailer_path       = trailer_base_path + movie.trailer_path;
-  var overview           = movie.overview;
-  var release_date       = movie.release_date;
-  var director           = movie.director;
-  var writer             = movie.writer;
-  var cast               = movie.cast;
-  insertToModal(movie_title, poster_path, trailer_path, overview, release_date, director, writer, cast)
-  // console.log(movie.title)
-  // console.log(movie.trailer_path)
-
-}; // close generateMovieDetails
-
-
-function insertToModal(movie_title, poster_path, trailer_path, overview, release_date, director, writer, cast){
-
-  // console.log(movie_title)
-  // Title: Release Date: Director: Writer: Case:"
-  var posterAndDetailsTemplate  = '<div id="modalPosterImg"><img src="' +
-                                  poster_path                           +
-                                  '"></div><div><p>Title:</p><h4>'      +
-                                  movie_title                           +
-                                  '</h4><p>Release Date:</p><h4>'       +
-                                  release_date                          +
-                                  '</h4><p>Director:</p><h4>'           +
-                                  director                              +
-                                  '</h4><p>Writer:</p><h4>'             +
-                                  writer                                +
-                                  '</h4><p>Cast:</p><h4>'               +
-                                  cast                                  +
-                                  '</h4></div>';
-
-  var trailerAndPlotTemplate    = '<div class="embed-responsive embed-responsive-4by3">' +
-                                  '<iframe class="embed-responsive-item" src="'          +
-                                  trailer_path                                           +
-                                  '"></iframe></div><div><h4>'                           +
-                                  overview                                               +
-                                  '</h4></div>';
-
-  $('.modal-title').html(movie_title);
-  $('#posterAndDetails').html(posterAndDetailsTemplate);
-  $('#trailerAndPlot').html(trailerAndPlotTemplate)
-
-
-}; // close insertToModal
-
-
-
-                    // Add New UserMovie '++'' or 'Seen'
-//----------------------------------------------------------------\\
+}
+function ajaxAppendNotSeenMovie(movieId){
+  $.ajax({
+    method   : 'GET',
+    url      : '/api/movies/'+movieId
+  }).success(function(resp){
+    getNotSeenMovieDetails(resp);
+  }); // close success, ajax
+}
+function getSeenMovieDetails(movie){
+    var base_path         = "https://image.tmdb.org/t/p/original";
+    var postser_path      = base_path + movie.poster_path;
+    var movie_title       = movie.title;
+    var release_date      = movie.release_date;
+    var movie_id          = movie.id;
+    insertToSeenMovieList(movie_id, release_date, movie_title, postser_path)
+}
+function getNotSeenMovieDetails(movie){
+    var base_path         = "https://image.tmdb.org/t/p/original";
+    var postser_path      = base_path + movie.poster_path;
+    var movie_title       = movie.title;
+    var release_date      = movie.release_date;
+    var movie_id          = movie.id;
+    insertToWantToWatchList(movie_id, release_date, movie_title, postser_path)
+}
 
 function addToWantToWatchList(){
   $('.overlay #addToWantToWatch').off().click(function(e){
@@ -248,40 +309,11 @@ function addToWantToWatchList(){
                             user_id    : userId,
                             seen       : false,
                             rated      : false,
-    }; // close createUserMovieData
 
-    // *******************************************************
-    $.ajax({ // AJAX SUCCESS FUNCTION NOT WORKING !!!!***************************************!!!
-      method      : 'POST',
-      url         : '/api/user/movies',
-      data        : createUserMovieData,
-      dataType    : 'html',
-      success     : function(resp) {
-                      console.log(resp)
-                      console.log('finished running ajax POST usermovies');
-                      console.log(resp["id"])
-                      $.ajax({
-                        method   : 'GET',
-                        url      : '/api/movies/'+movieId
-                      }).success(function(usermovie){
-                        function getMovieDetails(usermovie){
-                          var postser_path   = base_path + usermovie.poster_path;
-                          var movie_title       = usermovie.title;
-                          var release_date      = usermovie.release_date;
-                          var movie_id          = usermovie.id;
-                          insertToSeenMovieList(movie_id, release_date, movie_title, postser_path);
-                        }
-                        // console.log('successful in getting this movie');
-                        // console.log(resp.title);
+                            }; // close createUserMovieData
 
-                      });
+    ajaxAppendUserMovie(createUserMovieData);
 
-                    },
-      error       : function(resp) {
-                      console.log(resp);
-                      console.log("ajax error");
-                    }
-    }); // close success, ajax
   }); // close $('.overlay #addToWantToWatch')
 }; // close addToWantToWatchList
 
@@ -309,20 +341,8 @@ function addSeenList(){
                             rated      : false,
     }; // close createUserMovieData
 
-    $.ajax({
-      method     : 'POST',
-      url        : '/api/user/movies',
-      data       : createUserMovieData,
-      dataType    : 'html',
-      success     : function(resp) {
-                      console.log(resp)
-                      console.log('finish running ajax POST usermovies ajax f(x)');
-                    },
-      error       : function(resp) {
-                      console.log(resp);
-                      console.log("ajax error");
-                    }
-    }); // close success, ajax
+    ajaxAppendUserMovie(createUserMovieData);
+
   }); // close $('.overlay #addToSeen')
 
 } // close addSeenList
@@ -330,7 +350,7 @@ function addSeenList(){
 
 
                     // Extra On Click Functions
-//----------------------------------------------------------------\\
+//---------------------------------------------------\\
 
 function turnYoutubeVideoOff(){
 
@@ -343,7 +363,7 @@ function turnYoutubeVideoOff(){
 
 
                     // INITIALIZE
-//----------------------------------------------------------------\\
+//---------------------------------------------------\\
 
 $('.home.index').ready(function(){
 
