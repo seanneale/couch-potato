@@ -1,5 +1,5 @@
 class API::UserMoviesController < ApplicationController
-	before_action :authenticate_user!
+  before_action :authenticate_user!
 	before_action :get_usermovies, only: [:index]
   before_action :get_usermovie, only: [:update, :destroy]
 
@@ -8,19 +8,36 @@ class API::UserMoviesController < ApplicationController
 
   def create
     if !UserMovie.where(check_user_movie_params).present?
-      UserMovie.create(user_movie_params)
+      @usermovie = UserMovie.create(user_movie_params)
+        # if @usermovie.save
+        #   {message: 'UserMovie Saved'}
+        # else
+        #   {message: 'UserMovie Cannot Be Saved'}, status: 404
+        # end
+      render json: @usermovie
       puts "User Movie Created"
     else
       puts "User Movie Already Exists"
+      render json: {message: 'User Movie Already Exists'}, status: 404
     end
   end
 
   def update
     @usermovie.assign_attributes(user_preference_params)
+    if @usermovie.save
+      render json: @usermovie
+      head 201
+    else
+      render json: {message: 'UserMovie Cannot Be Saved'}, status: 404
+    end
   end
 
   def destroy
-    @usermovie.destroy
+    if @usermovie.destroy
+      render json: {message: 'usermovie destroyed'}
+    else
+      render json: {message: 'UserMovie Cannot Be Deleted'}, status: 404
+    end
   end
 
 private
@@ -31,19 +48,19 @@ private
   def get_usermovie
     @usermovie = UserMovie.find_by(id: params[:id])
     if @usermovie.nil?
-      render json: {message: "Cannot find #{params[:id]}"}, status: 404
+      render json: {message: "Cannot find User Movie"}, status: 404
     end
   end
 
   def user_movie_params
-    params.require(:usermovie).permit(:movie_id, :user_id, :seen, :rated)
+    params.permit(:movie_id, :user_id, :seen, :rated)
   end
 
   def check_user_movie_params
-    params.require(:usermovie).permit(:movie_id, :user_id)
+    params.permit(:movie_id, :user_id)
   end
 
   def user_preference_params
-    params.require(:usermovie).permit(:seen, :rated)
+    params.permit(:seen, :rated)
   end
 end

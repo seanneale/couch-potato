@@ -5,7 +5,8 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def authenticate_user!
-    render json: {message: "Unauthorize"} if current_user.nil?
+    redirect_to '/auth' if current_user.nil?
+    # render json: {message: "Unauthorize"} if current_user.nil?
   end
 
   def get_current_user

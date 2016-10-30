@@ -1,13 +1,26 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
-function generateProfilePage(resp){
-	console.log('generating');
-	console.log(resp.email);
-
+function generateProfilePage(name,email){
+	$('#welcome').text(name + "'s profile")
+	$('#name').text("Name: " + name)
+	$('#email').text("Email: " + email)
+	$('#editNameInput').val(name)
+	$('#editEmailInput').val(email)
 }
 
-function gettingUserMovieLibrary(id){
-	console.log(id);
+function gettingUserMovieLibrary(){
+	$.ajax({
+		method: 'GET',
+		url: '/api/user/movies'
+	}).success(function(resp){
+		console.log(resp.user_movie);
+		for(var i = 0; i < resp.user_movie.length; i++){
+			newElem =	'<div class="col-xs-4">' + 
+							'<img class="img-responsive" src="http://image.tmdb.org/t/p/original/'+ resp.user_movie[i].movie.poster_path +'">' +
+						'</div>';
+			$('#movieDisplay').append(newElem);
+		}
+	})
 }
 
 
@@ -17,14 +30,52 @@ function getInfoForProfilePage(){
 		url: '/api/user'
 	}).success(function(resp){
 		//function that builds the user's profile page
-		generateProfilePage(resp);
-		gettingUserMovieLibrary(resp.id);
+		generateProfilePage(resp.name,resp.email);
 	});
+}
+
+function editUserInfo(){
+	var newName = $('#editNameInput').val();
+	var newEmail = $('#editEmailInput').val();
+	console.log(newName);
+	console.log(newEmail);
+	$.auth.updateAccount({
+		name: newName,
+		email: newEmail
+	});
+	generateProfilePage(newName,newEmail)
+	$('#viewDetails').show();
+	$('#editDetails').hide();
 }
 
 
 $('.profile.index').ready(function(){
 	getInfoForProfilePage();
+	$('#editDetails').hide();
+
+	$('#showEditSection').on('click',function(e){
+		e.preventDefault();
+		$('#viewDetails').hide();
+		$('#editDetails').show();
+	});
+
+	$('#makeChangesBtn').on('click',function(e){
+		e.preventDefault();
+		editUserInfo();
+	})
+
+	$('#deleteAccountBtn').on('click',function(e){
+		e.preventDefault();
+		$.auth.destroyAccount();
+		window.location.href = "/auth";
+	})
+
+	$('#logoutBtn').on('click',function(){
+		$.auth.signOut();
+		window.location.href = "/auth";
+	})
+
+	gettingUserMovieLibrary();	
 	// code for updating the user account!!
 	// $.auth.updateAccount({
 	// 	email: 'test@test.com'
