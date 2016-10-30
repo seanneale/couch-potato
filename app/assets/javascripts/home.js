@@ -453,10 +453,65 @@ $('.home.index').ready(function(){
   getUpcomingMovies();
   getUserMoviesLists();
   turnYoutubeVideoOff();
-
+  searchLocalEventListener();
 }); // close (.home.index).ready
 
+// SEARCHING FOR FILMS
+function searchLocalEventListener(){
+  $('#searchLocalBtn').on('click',function(){
+    var searchField = $('#searchBox').val()
+    console.log(searchField);
+    $.ajax({
+      method: 'GET',
+      url: '/api/movies/search-local',
+      data: {title: searchField}
+    }).success(function(resp){
+      $('#searchResults').html("");
+      if(resp.length == 0){
+        moreResults = "<li>" +
+                        "<div class='col-xs-12' id='searchRemoteBtn'>For more results click here..</div>" +
+                      "</li>";
+        $('#searchResults').append(moreResults);
+        searchRemoteResult();
+      } else {
+        for(var i = 0; i < resp.length; i++){
+          newElem = "<li>" +
+                      "<div class='col-xs-10'>" + resp[i].title + " " + resp[i].release_date + "</div>" +
+                      "<div class='col-xs-2' data-id=" + resp[i].id + ">Icons go here</div>" +
+                    "</li>";
+          $('#searchResults').append(newElem);
+        }
+        moreResults = "<li>" +
+                        "<div class='col-xs-12' id='searchRemoteBtn'>For more results click here..</div>" +
+                      "</li>";
+        $('#searchResults').append(moreResults);
+        $('#searchRemoteBtn').on('click',function(){
+          searchRemoteResult();
+        })
+      }
+    })
+  });
+}
 
+function searchRemoteResult(){
+  $('#searchRemoteBtn').text("Oooh, going a little further for these results, please be patient")
+  var searchField = $('#searchBox').val()
+  $.ajax({
+    method: 'GET',
+    url:'api/movies/search-remote',
+    data: {title: searchField}
+  }).success(function(resp){
+    console.log(resp);
+    for(var i = 0; i < resp.length; i++){
+      newElem = "<li>" +
+                  "<div class='col-xs-10'>" + resp[i].title + " " + resp[i].release_date + "</div>" +
+                  "<div class='col-xs-2' data-id=" + resp[i].id + ">Icons go here</div>" +
+                "</li>";
+      $('#searchResults').append(newElem);
+      $('#searchRemoteBtn').parent().remove();
+    }
+  })
+}
 
 
 

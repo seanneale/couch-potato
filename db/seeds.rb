@@ -37,7 +37,6 @@ Tmdb::Api.key('080c6e21243c377d80ac2754b8827b4f')
 	@credit_details = Tmdb::Movie.credits(@tmdb_id)
 	@director = @credit_details["crew"].find { |key| key['job'] == "Director"}
 	@director ? @director = @director["name"] : @director = "no source"
-
 	@writer = @credit_details["crew"].find { |key| key['job'] == "Screenplay" || key['job'] == "Writer"}
 	@writer ? @writer = @writer['name'] : @writer = "no source"
 	@cast = @credit_details["cast"]

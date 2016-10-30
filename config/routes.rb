@@ -5,6 +5,8 @@ Rails.application.routes.draw do
         # publicly accessable movies
         resources :movies, only: [:index], defaults: {format: 'json'}
         get '/movies/upcoming' => "movies#upcoming", defaults: {format: 'json'}
+        get '/movies/search-local' => "movies#search_local"
+        get '/movies/search-remote' => "movies#search_remote"
         resources :movies, onlu: [:show], defaults: {format: 'json'}
         # get user info
         get '/user' => "users#user_profile", defaults: {format: 'json'}

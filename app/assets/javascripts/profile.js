@@ -67,6 +67,7 @@ $('.profile.index').ready(function(){
 	$('#deleteAccountBtn').on('click',function(e){
 		e.preventDefault();
 		$.auth.destroyAccount();
+		window.location.href = "/auth";
 	})
 
 	$('#logoutBtn').on('click',function(){
