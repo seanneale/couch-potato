@@ -1,7 +1,6 @@
 
 
-                    // Modal Information
-//---------------------------------------------------\\
+// Modal Information
 
 function getMovieModal(){
 
@@ -11,9 +10,7 @@ function getMovieModal(){
     console.log("This Movie's ID is " + movieId);
     getMovieDetails(movieId);
   }); // close '$.thisMovie'
-
 }; // close getMovieModal
-
 
 function getMovieDetails(movieId){
 
@@ -25,9 +22,7 @@ function getMovieDetails(movieId){
     // console.log('successful in getting this movie');
     // console.log(resp.title);
   }); // close success, ajax
-
 }; // close getMovieDetails
-
 
 function generateMovieDetails(movie){
 
@@ -45,9 +40,7 @@ function generateMovieDetails(movie){
   insertToModal(movie_title, poster_path, trailer_path, overview, release_date, director, writer, cast)
   // console.log(movie.title)
   // console.log(movie.trailer_path)
-
 }; // close generateMovieDetails
-
 
 function insertToModal(movie_title, poster_path, trailer_path, overview, release_date, director, writer, cast){
 
@@ -77,14 +70,10 @@ function insertToModal(movie_title, poster_path, trailer_path, overview, release
   $('.modal-title').html(movie_title);
   $('#posterAndDetails').html(posterAndDetailsTemplate);
   $('#trailerAndPlot').html(trailerAndPlotTemplate)
-
-
 }; // close insertToModal
 
 
-
-                     // UPCOMING MOVIES
-//---------------------------------------------------\\
+// UPCOMING MOVIES
 
 function getUpcomingMovies(){
 
@@ -95,7 +84,6 @@ function getUpcomingMovies(){
     console.log('successful in getting upcoming');
     generateUpcomingMovies(resp);
   }); // close success, ajax
-
 } // close getUpcomingMovies
 
 
@@ -143,7 +131,7 @@ function insertToUpcomingMovie(movie_id, release_date, movie_title, poster_path)
                      // USER MOVIES
 //---------------------------------------------------\\
 
-
+////////////////////////////////////////////////////////
 function getUserMoviesLists(){
   $.ajax({
       method   : 'GET',
@@ -151,7 +139,7 @@ function getUserMoviesLists(){
   }).success(function(resp){
     console.log('successful in getting usermovies');
     generateUserMovies(resp);
-    // appending user's id into header for future access
+
     $('.UpcomingMoviesHeader').attr('id', resp.user.id);
     // console.log("check for" + resp.user.id);
     // var upcomingID = $('.UpcomingMoviesHeader').attr('id')
@@ -173,51 +161,59 @@ function generateUserMovies(usermovies){
        // console.log(usermoviesArray[0].seen)
   // loop through all user's movies
   for (var i = 0 ; i < usermoviesArray.length ; i++) {
+    var usermovieId       = usermoviesArray[i].id
     var usermovie         = usermoviesArray[i].movie
-    var postser_path   = base_path + usermovie.poster_path;
+    var postser_path      = base_path + usermovie.poster_path;
     var movie_title       = usermovie.title;
     var release_date      = usermovie.release_date;
     var movie_id          = usermovie.id;
     // if user has seen the movie vs not seen the movie
     if (usermoviesArray[i].seen) {
-      insertToSeenMovieList(movie_id, release_date, movie_title, postser_path)
+      insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId)
     } else {
-      insertToWantToWatchList(movie_id, release_date, movie_title, postser_path)
+      insertToWantToWatchList(movie_id, release_date, movie_title, postser_path, usermovieId)
     }; // close if statement
   }; // close for loop
 
 }; // close generateUserMovies
 
 
-function insertToSeenMovieList(movie_id, release_date, movie_title, postser_path){
+function insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId){
 
-  var template = '<div class="hovereffect2 thisMovie" id="'               +
-                 movie_id                                                +
-                 '"data-toggle="modal" data-target=".modal"><img src="' +
-                 postser_path                                         +
-                 '"><div class="overlay"><h2>'                           +
-                 movie_title                                             +
-                 '</h2><a class="info" href="#">Rate</a></div></div>';
+  var template = '<div class="hovereffect2 thisMovie" id="'            +
+                 movie_id                                              +
+                 '"data-toggle="modal" data-target=".modal"><img src="'+
+                 postser_path                                          +
+                 '"><div class="overlay" id="'                         +
+                 usermovieId                                           +
+                 '"><h2>'                                              +
+                 movie_title                                           +
+                 '</h2><a class="info" href="" id="addToSeenFromWant">Seen</a></div></div>';
 
   console.log("Seen List --  " + movie_title);
+  console.log(usermovieId);
   $('#seenBox').append(template);
   getMovieModal();
 
 } // close insertToSeenMovieList
 
 
-function insertToWantToWatchList(movie_id, release_date, movie_title, postser_path){
+function insertToWantToWatchList(movie_id, release_date, movie_title, postser_path, usermovieId){
 
-  var template = '<div class="hovereffect2 thisMovie" id="'               +
-                 movie_id                                                +
-                 '"data-toggle="modal" data-target=".modal"><img src="' +
-                 postser_path                                         +
-                 '"><div class="overlay"><h2>'                           +
-                 movie_title                                             +
-                 '</h2><a class="info" href="#">Seen</a></div></div>';
+  var template = '<div class="hovereffect2 thisMovie" id="'            +
+                 movie_id                                              +
+                 '"data-toggle="modal" data-target=".modal"><img src="'+
+                 postser_path                                          +
+                 '"><div class="overlay" id="'                         +
+                 usermovieId                                           +
+                 '"><h2>'                                              +
+                 movie_title                                           +
+                 '</h2><a class="info" href="" id="addToSeenFromWant">Seen</a></div></div>';
 
   console.log("Want To Watch List -- " + movie_title);
+  console.log(usermovieId)
   $('#wantToWatchBox').append(template);
+  addToSeenFromWant()
   getMovieModal();
 
 } // close insertToSeenMovieList
@@ -228,7 +224,7 @@ function insertToWantToWatchList(movie_id, release_date, movie_title, postser_pa
                     // Add New UserMovie '++'' or 'Seen'
 //---------------------------------------------------\\
 
-function ajaxAppendUserMovie(createUserMovieData){
+function createUserMovie(createUserMovieData){
     $.ajax({
       method      : 'POST',
       url         : '/api/user/movies',
@@ -236,7 +232,7 @@ function ajaxAppendUserMovie(createUserMovieData){
       dataType    : 'json',
       success     : function(resp) {
                       console.log('finished running ajax POST usermovies');
-                      // console.log(resp);
+                      console.log(resp);
                       // console.log(resp.movie_id);
                       appendNewUserMovie(resp);
                     },
@@ -245,7 +241,7 @@ function ajaxAppendUserMovie(createUserMovieData){
                       console.log("ajax error");
                     }
     }); // close success, ajax
-}
+} // close createUserMovie
 
 function appendNewUserMovie(movie){
   var movieId = movie.movie_id
@@ -272,21 +268,61 @@ function ajaxAppendNotSeenMovie(movieId){
     getNotSeenMovieDetails(resp);
   }); // close success, ajax
 }
+////////////////////////////////////////////////////////////////////////////////////////
+
+
 function getSeenMovieDetails(movie){
-    var base_path         = "https://image.tmdb.org/t/p/original";
-    var postser_path      = base_path + movie.poster_path;
-    var movie_title       = movie.title;
-    var release_date      = movie.release_date;
-    var movie_id          = movie.id;
-    insertToSeenMovieList(movie_id, release_date, movie_title, postser_path)
-}
+
+  var base_path         = "https://image.tmdb.org/t/p/original";
+  var postser_path      = base_path + movie.poster_path;
+  var movie_title       = movie.title;
+  var release_date      = movie.release_date;
+  var movie_id          = movie.id;
+
+  $.ajax({
+    method   : 'GET',
+    url      : '/api/user/movies'
+  }).success(function(resp){
+    console.log('successful in getting usermovies');
+    var array = resp.user_movie;
+    var obj = array.filter(function(obj){
+      return obj.movie_id == movie_id;
+    })[0];
+    // console.log(array);
+    // console.log(obj);
+    var usermovieId = obj.id
+    console.log (usermovieId)
+    console.log(movie_title)
+    insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId)
+  }); // close success, ajax
+
+
+
+} // close getSeenMovieDetails
+
 function getNotSeenMovieDetails(movie){
-    var base_path         = "https://image.tmdb.org/t/p/original";
-    var postser_path      = base_path + movie.poster_path;
-    var movie_title       = movie.title;
-    var release_date      = movie.release_date;
-    var movie_id          = movie.id;
-    insertToWantToWatchList(movie_id, release_date, movie_title, postser_path)
+  var base_path         = "https://image.tmdb.org/t/p/original";
+  var postser_path      = base_path + movie.poster_path;
+  var movie_title       = movie.title;
+  var release_date      = movie.release_date;
+  var movie_id          = movie.id;
+
+  $.ajax({
+    method   : 'GET',
+    url      : '/api/user/movies'
+  }).success(function(resp){
+    console.log('successful in getting usermovies');
+    var array = resp.user_movie;
+    var obj = array.filter(function(obj){
+      return obj.movie_id == movie_id;
+    })[0];
+    // console.log(array);
+    // console.log(obj);
+    var usermovieId = obj.id
+    console.log (usermovieId)
+    console.log(movie_title)
+    insertToWantToWatchList(movie_id, release_date, movie_title, postser_path, usermovieId)
+  }); // close success, ajax
 }
 
 function addToWantToWatchList(){
@@ -312,7 +348,7 @@ function addToWantToWatchList(){
 
                             }; // close createUserMovieData
 
-    ajaxAppendUserMovie(createUserMovieData);
+    createUserMovie(createUserMovieData);
 
   }); // close $('.overlay #addToWantToWatch')
 }; // close addToWantToWatchList
@@ -341,12 +377,58 @@ function addSeenList(){
                             rated      : false,
     }; // close createUserMovieData
 
-    ajaxAppendUserMovie(createUserMovieData);
+    createUserMovie(createUserMovieData);
 
   }); // close $('.overlay #addToSeen')
 
 } // close addSeenList
 
+function addToSeenFromWant(){
+  $('.overlay #addToSeenFromWant').off().click(function(e){
+
+    e.preventDefault();
+    e.stopPropagation()
+    console.log("add to seen clicked");
+    var usermovieId          = $(this).parent().attr('id');
+    // console.log(usermovieId);
+// need usermovie
+    // console.log(typeof(movieId));
+    // console.log(typeof(userId));
+    var updateUserMovieData   = {
+                            seen       : true,
+                            rated      : false,
+
+                            }; // close updateUserMovie
+
+    updateUserMovie(updateUserMovieData, usermovieId);
+
+  }); // close $('.overlay #addToWantToWatch')
+}; // close addToWantToWatchList
+
+function updateUserMovie(updateUserMovieData, usermovieId){
+  $.ajax({
+    method      : 'PATCH',
+    url         : '/api/user/movies/' + usermovieId,
+    data        : updateUserMovieData,
+    dataType    : 'json',
+    success     : function(resp) {
+                    console.log('finished running ajax PATCH usermovies');
+                    console.log(resp);
+                    // console.log(resp.movie_id);
+                    // updateUserMovieToSeen(resp);
+                  },
+    error       : function(resp) {
+                    console.log(resp);
+                    console.log("ajax error");
+                  }
+  }); // close success, ajax
+};
+
+function updateUserMovieToSeen(movie){
+  var movieId = movie.movie_id
+  updateAjaxToSeen(movieId)
+
+}
 
 
                     // Extra On Click Functions
