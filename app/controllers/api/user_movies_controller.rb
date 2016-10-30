@@ -24,9 +24,11 @@ class API::UserMoviesController < ApplicationController
 
   def update
     @usermovie.assign_attributes(user_preference_params)
+
     if @usermovie.save
+
       render json: @usermovie
-      head 201
+
     else
       render json: {message: 'UserMovie Cannot Be Saved'}, status: 404
     end
