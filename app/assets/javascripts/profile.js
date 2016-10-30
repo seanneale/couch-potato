@@ -64,6 +64,16 @@ $('.profile.index').ready(function(){
 		editUserInfo();
 	})
 
+	$('#deleteAccountBtn').on('click',function(e){
+		e.preventDefault();
+		$.auth.destroyAccount();
+	})
+
+	$('#logoutBtn').on('click',function(){
+		$.auth.signOut();
+		window.location.href = "/auth";
+	})
+
 	gettingUserMovieLibrary();	
 	// code for updating the user account!!
 	// $.auth.updateAccount({
