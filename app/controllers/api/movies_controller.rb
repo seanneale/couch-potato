@@ -57,8 +57,10 @@ class API::MoviesController < ApplicationController
 				cast[1] ? cast1 = cast[1]["name"] : cast1 = 'no source'
 				cast[2] ? cast2 = cast[2]["name"] : cast2 = 'no source'
 				cast = "#{cast0}, #{cast1} & #{cast2}"
-				@result = Movie.create(tmdb_id: result.id, title: result.title, release_date: result.release_date, poster_path: result.poster_path, overview: result.overview, background_path: result.backdrop_path, trailer_path: trailer, director: director, writer: writer, cast: cast, loved_counter: 0, unloved_counter: 0, upcoming: false)
-				@movies.push @result
+				if trailer != "no source" && result.release_date
+					@result = Movie.create(tmdb_id: result.id, title: result.title, release_date: result.release_date, poster_path: result.poster_path, overview: result.overview, background_path: result.backdrop_path, trailer_path: trailer, director: director, writer: writer, cast: cast, loved_counter: 0, unloved_counter: 0, upcoming: false)
+					@movies.push @result
+				end
 			end
 	    end
 		render json: @movies
