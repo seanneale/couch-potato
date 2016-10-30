@@ -28,7 +28,7 @@ task :create_upcoming_movies => :environment do
 			cast[1] ? cast1 = cast[1]["name"] : cast1 = 'no source'
 			cast[2] ? cast2 = cast[2]["name"] : cast2 = 'no source'
 			cast = "#{cast0}, #{cast1} & #{cast2}"
-			Movie.create(tmdb_id: movie.id, title: movie.title, release_date: movie.release_date, poster_path: movie.poster_path, overview: movie.overview, background_path: movie.backdrop_path, trailer_path: trailer, director: director, writer: writer, cast: cast, loved_counter: 0, unloved_counter: 0, upcoming: :false)
+			Movie.create(tmdb_id: movie.id, title: movie.title, release_date: movie.release_date, poster_path: movie.poster_path, overview: movie.overview, background_path: movie.backdrop_path, trailer_path: trailer, director: director, writer: writer, cast: cast, loved_counter: 0, unloved_counter: 0, upcoming: true)
 		end
     end
     # check films exists
