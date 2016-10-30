@@ -169,7 +169,7 @@ function generateUserMovies(usermovies){
     var movie_id          = usermovie.id;
     // if user has seen the movie vs not seen the movie
     if (usermoviesArray[i].seen) {
-      insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId)
+      insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId);
     } else {
       insertToWantToWatchList(movie_id, release_date, movie_title, postser_path, usermovieId)
     }; // close if statement
@@ -188,11 +188,12 @@ function insertToSeenMovieList(movie_id, release_date, movie_title, postser_path
                  usermovieId                                           +
                  '"><h2>'                                              +
                  movie_title                                           +
-                 '</h2><a class="info" href="" id="addToSeenFromWant">Seen</a></div></div>';
+                 '</h2><a class="info" href="" id="setLoved">loved</a><a class="info" href="" id="setNeutral">Neutral</a></div></div>';
 
   console.log("Seen List --  " + movie_title);
   console.log(usermovieId);
   $('#seenBox').append(template);
+  $('.overlay #setLoved').hide();
   getMovieModal();
 
 } // close insertToSeenMovieList
@@ -221,7 +222,7 @@ function insertToWantToWatchList(movie_id, release_date, movie_title, postser_pa
 
 
 
-                    // Add New UserMovie '++'' or 'Seen'
+              // Add New UserMovie '++'' or 'Seen'
 //---------------------------------------------------\\
 
 function createUserMovie(createUserMovieData){
@@ -424,7 +425,42 @@ function updateUserMovie(updateUserMovieData, usermovieId){
   }); // close success, ajax
 };
 
+              // Add New UserMovie '++'' or 'Seen'
+//---------------------------------------------------\\
 
+function NeutralClickedUpdateToLoved(){
+$('.overlay #setNeutral').off().click(function(e){
+
+    e.preventDefault();
+    e.stopPropagation()
+    $('.overlay #setNeutral').hide();
+    $('#setLoved').show();
+    console.log("neutral clicked ... ---> .... loved set");
+//     var usermovieId          = $(this).parent().attr('id');
+//     // console.log(usermovieId);
+// // need usermovie
+//     // console.log(typeof(movieId));
+//     // console.log(typeof(userId));
+//     var updateUserMovieData   = {
+//                             seen       : true,
+//                             rated      : false,
+
+//                             }; // close updateUserMovie
+
+//     updateUserMovie(updateUserMovieData, usermovieId);
+
+  }); // close $('.overlay #addToWantToWatch')
+}; // close updateToLoved
+
+function LovedClickedUpdateToNeutral(){
+
+    e.preventDefault();
+    e.stopPropagation()
+    $('#setNeutral').show();
+    $('#setLoved').hide();
+    console.log("love clicked ... ---> .... neutralset");
+
+}
 
                     // Extra On Click Functions
 //---------------------------------------------------\\
@@ -451,6 +487,8 @@ $('.home.index').ready(function(){
   searchLocalEventListener();
 }); // close (.home.index).ready
 
+
+//----------------------
 // SEARCHING FOR FILMS
 function searchLocalEventListener(){
   $('#searchLocalBtn').on('click',function(){
