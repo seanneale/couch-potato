@@ -268,7 +268,6 @@ function ajaxAppendNotSeenMovie(movieId){
     getNotSeenMovieDetails(resp);
   }); // close success, ajax
 }
-////////////////////////////////////////////////////////////////////////////////////////
 
 
 function getSeenMovieDetails(movie){
@@ -394,6 +393,7 @@ function addToSeenFromWant(){
 // need usermovie
     // console.log(typeof(movieId));
     // console.log(typeof(userId));
+    $(this).parent().parent().remove();
     var updateUserMovieData   = {
                             seen       : true,
                             rated      : false,
@@ -414,8 +414,8 @@ function updateUserMovie(updateUserMovieData, usermovieId){
     success     : function(resp) {
                     console.log('finished running ajax PATCH usermovies');
                     console.log(resp);
-                    // console.log(resp.movie_id);
-                    // updateUserMovieToSeen(resp);
+                    var movieId = resp.movie_id;
+                    ajaxAppendSeenMovie(movieId);
                   },
     error       : function(resp) {
                     console.log(resp);
@@ -424,11 +424,6 @@ function updateUserMovie(updateUserMovieData, usermovieId){
   }); // close success, ajax
 };
 
-function updateUserMovieToSeen(movie){
-  var movieId = movie.movie_id
-  updateAjaxToSeen(movieId)
-
-}
 
 
                     // Extra On Click Functions
