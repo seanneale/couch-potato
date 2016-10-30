@@ -25,6 +25,7 @@
 # end
 
 User.create(email: 'jacqie@couchpotato.com', password: 'ilovemovies', name: 'Jacqie', image: Faker::Avatar.image)
+User.create(email: 'sean@couchpotato.com', password: '12345678', name: 'Sean', image: Faker::Avatar.image)
 
 Tmdb::Api.key('080c6e21243c377d80ac2754b8827b4f')
 
@@ -41,10 +42,12 @@ Tmdb::Api.key('080c6e21243c377d80ac2754b8827b4f')
 	@writer ? @writer = @writer['name'] : @writer = "no source"
 	@cast = @credit_details["cast"]
 	@cast[0] ? @cast0 = @cast[0]["name"] : @cast0 = 'no source'
-	@cast[1] ? @cast0 = @cast[1]["name"] : @cast0 = 'no source'
-	@cast[2] ? @cast0 = @cast[2]["name"] : @cast0 = 'no source'
+	@cast[1] ? @cast1 = @cast[1]["name"] : @cast1 = 'no source'
+	@cast[2] ? @cast2 = @cast[2]["name"] : @cast2 = 'no source'
 	@cast = "#{@cast0}, #{@cast1} & #{@cast2}"
-	Movie.create(tmdb_id: movie.id, title: movie.title, release_date: movie.release_date, poster_path: movie.poster_path, overview: movie.overview, background_path: movie.backdrop_path, trailer_path: @trailer, director: @director, writer: @writer, cast: @cast, loved_counter: 0, unloved_counter: 0, upcoming: :false)
+	if @trailer != "no source" && movie.release_date
+		Movie.create(tmdb_id: movie.id, title: movie.title, release_date: movie.release_date, poster_path: movie.poster_path, overview: movie.overview, background_path: movie.backdrop_path, trailer_path: @trailer, director: @director, writer: @writer, cast: @cast, loved_counter: 0, unloved_counter: 0, upcoming: :false)
+	end
 end
 
 @genres = Tmdb::Genre.list
@@ -68,7 +71,7 @@ end
 @users.each do |user|
 	puts user.name
 	@movies_ids = Movie.pluck(:id)
-	rand(3..8).times do
+	rand(3..15).times do
 		user.user_movies.create(movie_id: @movies_ids.sample, seen: [true, false].sample, rated: [true, false].sample)
 	end
 end
