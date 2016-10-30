@@ -2,6 +2,7 @@
 // All this logic will automatically be available in application.js.
 $('.auth.index').ready(function(){
 	$('#signup').hide();
+	$('.navbar-right').hide()
 
 	$('#login-form').on('submit', function(e){
 		e.preventDefault();
