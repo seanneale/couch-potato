@@ -186,14 +186,13 @@ function insertToSeenMovieList(movie_id, release_date, movie_title, postser_path
                  postser_path                                          +
                  '"><div class="overlay" id="'                         +
                  usermovieId                                           +
-                 '"><h2>'                                              +
-                 movie_title                                           +
-                 '</h2><a class="info" href="" id="setLoved">loved</a><a class="info" href="" id="setNeutral">Neutral</a></div></div>';
-
+                 '"><a class="info setNeutral" href="" >Neutral</a></div></div>';
+// <h2>'                                              +
+//                  movie_title                                           +
+//                  '</h2>
   console.log("Seen List --  " + movie_title);
   console.log(usermovieId);
   $('#seenBox').append(template);
-  $('.overlay #setLoved').hide();
   NeutralClickedUpdateToLoved();
   LovedClickedUpdateToNeutral()
   getMovieModal();
@@ -209,10 +208,10 @@ function insertToWantToWatchList(movie_id, release_date, movie_title, postser_pa
                  postser_path                                          +
                  '"><div class="overlay" id="'                         +
                  usermovieId                                           +
-                 '"><h2>'                                              +
-                 movie_title                                           +
-                 '</h2><a class="info" href="" id="addToSeenFromWant">Seen</a></div></div>';
-
+                 '"><a class="info" href="" id="addToSeenFromWant">Seen</a></div></div>';
+// <h2>'                                              +
+//                  // movie_title                                           +
+//                  '</h2>
   console.log("Want To Watch List -- " + movie_title);
   console.log(usermovieId)
   $('#wantToWatchBox').append(template);
@@ -431,14 +430,15 @@ function updateUserMovie(updateUserMovieData, usermovieId){
 //---------------------------------------------------\\
 
 function NeutralClickedUpdateToLoved(){
-$('.overlay #setNeutral').off().click(function(e){
+$('.overlay .setNeutral').off().click(function(e){
 
     e.preventDefault();
     e.stopPropagation()
-    $('.overlay #setNeutral').hide();
-    $('.overlay #setLoved').show();
     console.log("neutral clicked ... ---> .... loved set");
     var usermovieId          = $(this).parent().attr('id');
+    $('.thisMovie'+' #'+usermovieId+', this').html('');
+    console.log($('.thisMovie'+' #'+usermovieId+', this'))
+    $('.thisMovie'+' #'+usermovieId+', this').append('<a class="info setLoved" href="" >loved</a>');
     // console.log(usermovieId);
 // // need usermovie
 //     // console.log(typeof(movieId));
@@ -456,14 +456,16 @@ $('.overlay #setNeutral').off().click(function(e){
 }; // close updateToLoved
 
 function LovedClickedUpdateToNeutral(){
-  $('.overlay #setLoved').off().click(function(e){
+  $('.overlay .setLoved').off().click(function(e){
 
     e.preventDefault();
     e.stopPropagation()
-    $('.overlay #setNeutral').show();
-    $('.overlay #setLoved').hide();
     console.log("love clicked ... ---> .... neutralset");
     var usermovieId          = $(this).parent().attr('id');
+    $('.thisMovie'+' #'+usermovieId+', this').html('');
+    console.log($('.thisMovie'+' #'+usermovieId+', this'))
+
+    $('.thisMovie'+' #'+usermovieId+', this').append('<a class="info setNeutral" href="" >Neutral</a>');
     var updateUserMovieData   = {
                             seen       : true,
                             rated      : false,
