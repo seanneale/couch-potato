@@ -419,8 +419,8 @@ function getSeenMovieDetails(movie){
     console.log("LOOOOOKKKK "+rated)
     console.log (usermovieId)
     console.log(movie_title)
-    // $(this).parent().parent().remove();
-    // insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId, rated)
+
+    insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId, rated)
   }); // close success, ajax
 
 
