@@ -54,14 +54,7 @@
               height            : 100%;
           }
       }
-
-
-    #modalPosterImg img {
-      width      : 100%
     }
-
-
-
     .hovereffect2 {
       // width: 100%;
       height              : 100%;
@@ -139,6 +132,11 @@
       transform           : scale(1);
     }
   }
+
+  #modalPosterImg img {
+    width      : 100%
+  }
+
   .loadingModal {
     display:    none;
     position:   fixed;
@@ -147,14 +145,14 @@
     left:       0;
     height:     100%;
     width:      100%;
-    background: rgba( 255, 255, 255, 0.2 ) 
+    background: rgba( 255, 255, 255, 0.2 )
                 url('http://66.media.tumblr.com/tumblr_m7l7n6gWuD1qg6rkio1_r1_500.gif')
-                50% 50% 
+                50% 50%
                 no-repeat;
   }
 
   body.loading {
-    overflow: hidden;   
+    overflow: hidden;
   }
 
   body.loading .loadingModal {
@@ -170,5 +168,3 @@
       max-height: 100px;
     }
   }
-
-}
