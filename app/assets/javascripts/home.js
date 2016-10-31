@@ -169,7 +169,11 @@ function generateUserMovies(usermovies){
     var movie_id          = usermovie.id;
     // if user has seen the movie vs not seen the movie
     if (usermoviesArray[i].seen) {
-      insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId)
+      insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId);
+      // if (usermoviesArray[i].rated){
+      //   $('.overlay').html('');
+      //   $('.overlay').append('<a class="info setLoved" href="" >loved</a>');
+      // };
     } else {
       insertToWantToWatchList(movie_id, release_date, movie_title, postser_path, usermovieId)
     }; // close if statement
@@ -186,13 +190,15 @@ function insertToSeenMovieList(movie_id, release_date, movie_title, postser_path
                  postser_path                                          +
                  '"><div class="overlay" id="'                         +
                  usermovieId                                           +
-                 '"><h2>'                                              +
-                 movie_title                                           +
-                 '</h2><a class="info" href="" id="addToSeenFromWant">Seen</a></div></div>';
-
+                 '"><a class="info setNeutral" href="" >Neutral</a></div></div>';
   console.log("Seen List --  " + movie_title);
   console.log(usermovieId);
   $('#seenBox').append(template);
+
+
+
+  NeutralClickedUpdateToLoved();
+  LovedClickedUpdateToNeutral()
   getMovieModal();
 
 } // close insertToSeenMovieList
@@ -206,9 +212,7 @@ function insertToWantToWatchList(movie_id, release_date, movie_title, postser_pa
                  postser_path                                          +
                  '"><div class="overlay" id="'                         +
                  usermovieId                                           +
-                 '"><h2>'                                              +
-                 movie_title                                           +
-                 '</h2><a class="info" href="" id="addToSeenFromWant">Seen</a></div></div>';
+                 '"><a class="info" href="" id="addToSeenFromWant">Seen</a></div></div>';
 
   console.log("Want To Watch List -- " + movie_title);
   console.log(usermovieId)
@@ -221,7 +225,7 @@ function insertToWantToWatchList(movie_id, release_date, movie_title, postser_pa
 
 
 
-                    // Add New UserMovie '++'' or 'Seen'
+              // Add New UserMovie '++'' or 'Seen'
 //---------------------------------------------------\\
 
 function createUserMovie(createUserMovieData){
@@ -268,7 +272,6 @@ function ajaxAppendNotSeenMovie(movieId){
     getNotSeenMovieDetails(resp);
   }); // close success, ajax
 }
-////////////////////////////////////////////////////////////////////////////////////////
 
 
 function getSeenMovieDetails(movie){
@@ -394,6 +397,7 @@ function addToSeenFromWant(){
 // need usermovie
     // console.log(typeof(movieId));
     // console.log(typeof(userId));
+    $(this).parent().parent().remove();
     var updateUserMovieData   = {
                             seen       : true,
                             rated      : false,
@@ -414,8 +418,8 @@ function updateUserMovie(updateUserMovieData, usermovieId){
     success     : function(resp) {
                     console.log('finished running ajax PATCH usermovies');
                     console.log(resp);
-                    // console.log(resp.movie_id);
-                    // updateUserMovieToSeen(resp);
+                    var movieId = resp.movie_id;
+                    ajaxAppendSeenMovie(movieId);
                   },
     error       : function(resp) {
                     console.log(resp);
@@ -424,12 +428,181 @@ function updateUserMovie(updateUserMovieData, usermovieId){
   }); // close success, ajax
 };
 
-function updateUserMovieToSeen(movie){
-  var movieId = movie.movie_id
-  updateAjaxToSeen(movieId)
+              // Add New UserMovie '++'' or 'Seen'
+//---------------------------------------------------\\
 
-}
+function NeutralClickedUpdateToLoved(){
+$('.overlay .setNeutral').off().click(function(e){
 
+    e.preventDefault();
+    e.stopPropagation()
+    console.log("neutral clicked ... ---> .... loved set");
+    var usermovieId          = $(this).parent().attr('id');
+    $('.thisMovie'+' #'+usermovieId+', this').html('');
+    console.log($('.thisMovie'+' #'+usermovieId+', this'))
+    $('.thisMovie'+' #'+usermovieId+', this').append('<a class="info setLoved" href="" >loved</a>');
+    // console.log(usermovieId);
+// // need usermovie
+//     // console.log(typeof(movieId));
+//     // console.log(typeof(userId));
+    var updateUserMovieData   = {
+                            seen       : true,
+                            rated      : true,
+
+                            }; // close updateUserMovie
+
+    updateUserMoviePreferences(updateUserMovieData, usermovieId);
+
+
+  }); // close $('.overlay #addToWantToWatch')
+}; // close updateToLoved
+
+function LovedClickedUpdateToNeutral(){
+  $('.overlay .setLoved').off().click(function(e){
+
+    e.preventDefault();
+    e.stopPropagation()
+    console.log("love clicked ... ---> .... neutralset");
+    var usermovieId          = $(this).parent().attr('id');
+    $('.thisMovie'+' #'+usermovieId+', this').html('');
+    console.log($('.thisMovie'+' #'+usermovieId+', this'))
+
+    $('.thisMovie'+' #'+usermovieId+', this').append('<a class="info setNeutral" href="" >Neutral</a>');
+    var updateUserMovieData   = {
+                            seen       : true,
+                            rated      : false,
+
+                            }; // close updateUserMovie
+    updateUserMoviePreferences(updateUserMovieData, usermovieId);
+  });
+};
+
+function updateUserMoviePreferences(updateUserMovieData, usermovieId){
+  $.ajax({
+    method      : 'PATCH',
+    url         : '/api/user/movies/' + usermovieId,
+    data        : updateUserMovieData,
+    dataType    : 'json',
+    success     : function(resp) {
+                    console.log('finished running ajax PATCH usermovies');
+                    console.log(resp);
+                    var movieId = resp.movie_id;
+                    // ajaxAppendSeenMovie(movieId);
+                  },
+    error       : function(resp) {
+                    console.log(resp);
+                    console.log("ajax error");
+                  }
+  }); // close success, ajax
+};
+
+
+                    // Preferences
+//---------------------------------------------------\\
+function lovedFilter(){
+  $('#lovedFilter').off().click(function(e){
+    e.preventDefault();
+    $('#seenBox').html('');
+    getUserMoviesForLoved()
+
+  })
+};
+function getUserMoviesForLoved(){
+  $.ajax({
+      method   : 'GET',
+      url      : '/api/user/movies'
+  }).success(function(resp){
+    console.log('successful in getting usermovies');
+    generateLovedMovies(resp);
+  }); // close success, ajax
+} // close getUserMoviesForLoved
+function generateLovedMovies(usermovies){
+
+  console.log("starting to generate loved movies");
+  var base_path           = "https://image.tmdb.org/t/p/original";
+  var usermoviesArray     = usermovies.user_movie
+  for (var i = 0 ; i < usermoviesArray.length ; i++) {
+    var usermovieId       = usermoviesArray[i].id
+    var usermovie         = usermoviesArray[i].movie
+    var postser_path      = base_path + usermovie.poster_path;
+    var movie_title       = usermovie.title;
+    var release_date      = usermovie.release_date;
+    var movie_id          = usermovie.id;
+    // if user has loved the movie vs not seen the movie
+    if (usermoviesArray[i].rated) {
+      insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId);
+    }; // close if statement
+  }; // close for loop
+}; // close generateLovedMovies
+
+function neutralFilter(){
+  $('#neutralFilter').off().click(function(e){
+    e.preventDefault();
+    $('#seenBox').html('');
+    getUserMoviesForNeutral()
+
+  })
+};
+function getUserMoviesForNeutral(){
+  $.ajax({
+      method   : 'GET',
+      url      : '/api/user/movies'
+  }).success(function(resp){
+    console.log('successful in getting usermovies');
+    generateNeutralMovies(resp);
+  }); // close success, ajax
+} // close getUserMoviesForLoved
+function generateNeutralMovies(usermovies){
+
+  console.log("starting to generate neutral movies");
+  var base_path           = "https://image.tmdb.org/t/p/original";
+  var usermoviesArray     = usermovies.user_movie
+  for (var i = 0 ; i < usermoviesArray.length ; i++) {
+    var usermovieId       = usermoviesArray[i].id
+    var usermovie         = usermoviesArray[i].movie
+    var postser_path      = base_path + usermovie.poster_path;
+    var movie_title       = usermovie.title;
+    var release_date      = usermovie.release_date;
+    var movie_id          = usermovie.id;
+    // if user has loved the movie vs not seen the movie
+    if (!usermoviesArray[i].rated) {
+      insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId);
+    }; // close if statement
+  }; // close for loop
+}; // close generateLovedMovies
+function allFilter(){
+  $('#allFilter').off().click(function(e){
+    e.preventDefault();
+    $('#seenBox').html('');
+    getUserMoviesForAll()
+
+  })
+};
+function getUserMoviesForAll(){
+  $.ajax({
+      method   : 'GET',
+      url      : '/api/user/movies'
+  }).success(function(resp){
+    console.log('successful in getting usermovies');
+    generateAllMovies(resp);
+  }); // close success, ajax
+} // close getUserMoviesForLoved
+function generateAllMovies(usermovies){
+
+  console.log("starting to generate all movies");
+  var base_path           = "https://image.tmdb.org/t/p/original";
+  var usermoviesArray     = usermovies.user_movie
+  for (var i = 0 ; i < usermoviesArray.length ; i++) {
+    var usermovieId       = usermoviesArray[i].id
+    var usermovie         = usermoviesArray[i].movie
+    var postser_path      = base_path + usermovie.poster_path;
+    var movie_title       = usermovie.title;
+    var release_date      = usermovie.release_date;
+    var movie_id          = usermovie.id;
+    // if user has loved the movie vs not seen the movie
+    insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId);
+  }; // close for loop
+}; // close generateLovedMovies
 
                     // Extra On Click Functions
 //---------------------------------------------------\\
@@ -453,11 +626,16 @@ $('.home.index').ready(function(){
   getUpcomingMovies();
   getUserMoviesLists();
   turnYoutubeVideoOff();
+  lovedFilter();
+  neutralFilter();
+  allFilter();
   searchLocalEventListener();
   $('.searchMoviesHeader').hide();
   $('#searchMoviesRow').hide();
 }); // close (.home.index).ready
 
+
+//----------------------
 // SEARCHING FOR FILMS
 function searchLocalEventListener(){
   $('#searchLocalBtn').on('click',function(){

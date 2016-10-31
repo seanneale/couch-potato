@@ -2,8 +2,13 @@
 
   #body_container {
     margin-top : 65px;
+    margin-bottom: 40%;
     // background: yellow;
     height     : 700px;
+
+      h1 {
+        text-align: center;
+      }
       #upcomingMoviesRow, #searchMoviesRow{
         height       : 40%;
         overflow-x   : scroll;
@@ -17,26 +22,56 @@
               margin            : 0 5px 0 5px;
               height            : 100%;
           }
+      #filters {
+        text-align: center;
+        padding: 1%;
+        padding-top: 0;
       }
-      .userMoviesRow{
-        height       : 40%;
-        overflow-x   : scroll;
-        white-space  : nowrap;
-          .userMoviesBoxes {
-            // background-color: #333;
-            height              : 100%;
-          }
-          .userMoviesBoxes img {
-              // display: inline-block;
-              margin            : 0 5px 0 5px;
-              height            : 100%;
-          }
+      .filters {
+        padding: 0 1%;
       }
-  }
+        #upcomingMoviesRow{
+          height       : 40%;
+          overflow-x   : scroll;
+          white-space  : nowrap;
+          border-top: solid;
+          border-bottom: solid;
+          padding-top: 0.6%;
+            #upcomingMoviesBox {
+              // background-color: #333;
+              vertical-align: middle;
+              height              : 97%;
+            }
+            #upcomingMoviesBox img {
+                display: inline-block;
+                margin            : 0 8px 0 8px;
+                height            : 100%;
+                vertical-align: middle;
+            }
+        }
+        .userMoviesRow{
+          height       : 40%;
+          overflow-x   : scroll;
+          white-space  : nowrap;
+          border-top: solid;
+          border-bottom: solid;
+          padding-top: 0.6%;
+            .userMoviesBoxes {
+              // background-color: #333;
+              height              : 97%;
+            }
+            .userMoviesBoxes img {
+                // display: inline-block;
+                margin            : 0 8px 0 8px;
+                height            : 100%;
+            }
+        }
+    }
 
-  #modalPosterImg img {
-    width      : 100%
-  }
+    #modalPosterImg img {
+      width      : 100%
+    }
+
 
     .hovereffect2 {
       // width: 100%;
@@ -86,9 +121,9 @@
       display             : inline-block;
       text-decoration     : none;
       padding             : 7px 14px;
-      border              : 1px solid #fff;
-      margin              : 50px 0 0 0;
-      background-color: transparent;
+      // border              : 1px solid #fff;
+      margin              : 65% 0 0 0;
+      background-color: rgba(0, 0, 0, 0.4);
     }
 
     .hovereffect2 a.info:hover {

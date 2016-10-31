@@ -19,22 +19,36 @@
     </div>
   </div>
   <h1 class="UpcomingMoviesHeader">Upcoming Movies</h1>
+
   <div class="row" id="upcomingMoviesRow">
     <div id="upcomingMoviesBox">
     </div>
   </div>
+
   <h1>Want to Watch</h1>
+
   <div class="row userMoviesRow">
     <div class="userMoviesBoxes" id="wantToWatchBox">
     </div>
   </div>
 
-  <h1>Seen</h1>
+  <div class='row'>
+    <h1>Seen</h1>
+    <div id="filters">
+      <a href="" class="filters" id="lovedFilter">Loved</a>
+      <a href="" class="filters" id="neutralFilter">Neutral</a>
+      <a href="" class="filters" id="allFilter">All</a>
+    </div>
+  </div>
+
   <div class="row userMoviesRow">
     <div class="userMoviesBoxes" id="seenBox">
     </div>
   </div>
+
 </div>
+
+
 <div class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -53,8 +67,13 @@
           </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary">Add to want list</button>
+        <button type="button" class="btn btn-primary">Seen</button>
+        <button type="button" class="btn btn-primary">Loved</button>
+        <button type="button" class="btn btn-primary">Neutral</button>
+        <button type="button" class="btn btn-primary">Delete</button>
+        <button type="button" class="btn btn-primary">Back to Want list</button>
+
       </div>
     </div>
   </div>
