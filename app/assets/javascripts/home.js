@@ -170,6 +170,10 @@ function generateUserMovies(usermovies){
     // if user has seen the movie vs not seen the movie
     if (usermoviesArray[i].seen) {
       insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId);
+      // if (usermoviesArray[i].rated){
+      //   $('.overlay').html('');
+      //   $('.overlay').append('<a class="info setLoved" href="" >loved</a>');
+      // };
     } else {
       insertToWantToWatchList(movie_id, release_date, movie_title, postser_path, usermovieId)
     }; // close if statement
@@ -187,12 +191,12 @@ function insertToSeenMovieList(movie_id, release_date, movie_title, postser_path
                  '"><div class="overlay" id="'                         +
                  usermovieId                                           +
                  '"><a class="info setNeutral" href="" >Neutral</a></div></div>';
-// <h2>'                                              +
-//                  movie_title                                           +
-//                  '</h2>
   console.log("Seen List --  " + movie_title);
   console.log(usermovieId);
   $('#seenBox').append(template);
+
+
+
   NeutralClickedUpdateToLoved();
   LovedClickedUpdateToNeutral()
   getMovieModal();
@@ -209,9 +213,7 @@ function insertToWantToWatchList(movie_id, release_date, movie_title, postser_pa
                  '"><div class="overlay" id="'                         +
                  usermovieId                                           +
                  '"><a class="info" href="" id="addToSeenFromWant">Seen</a></div></div>';
-// <h2>'                                              +
-//                  // movie_title                                           +
-//                  '</h2>
+
   console.log("Want To Watch List -- " + movie_title);
   console.log(usermovieId)
   $('#wantToWatchBox').append(template);
