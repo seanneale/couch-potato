@@ -9,19 +9,6 @@
       h1 {
         text-align: center;
       }
-      #upcomingMoviesRow, #searchMoviesRow{
-        height       : 40%;
-        overflow-x   : scroll;
-        white-space  : nowrap;
-          #upcomingMoviesBox, #searchMoviesBox {
-            // background-color: #333;
-            height              : 100%;
-          }
-          #upcomingMoviesBox img, #searchMoviesBox img {
-              // display: inline-block;
-              margin            : 0 5px 0 5px;
-              height            : 100%;
-          }
       #filters {
         text-align: center;
         padding: 1%;
@@ -30,43 +17,44 @@
       .filters {
         padding: 0 1%;
       }
-        #upcomingMoviesRow{
-          height       : 40%;
-          overflow-x   : scroll;
-          white-space  : nowrap;
-          border-top: solid;
-          border-bottom: solid;
-          padding-top: 0.6%;
-            #upcomingMoviesBox {
-              // background-color: #333;
+      #upcomingMoviesRow, #searchMoviesRow{
+        height       : 40%;
+        overflow-x   : scroll;
+        white-space  : nowrap;
+        border-top: solid;
+        border-bottom: solid;
+        padding-top: 0.6%;
+          #upcomingMoviesBox, #searchMoviesBox {
+            // background-color: #333;
+            vertical-align: middle;
+            height              : 97%;
+          }
+          #upcomingMoviesBox img, #searchMoviesBox img {
+              display: inline-block;
+              margin            : 0 8px 0 8px;
+              height            : 100%;
               vertical-align: middle;
-              height              : 97%;
-            }
-            #upcomingMoviesBox img {
-                display: inline-block;
-                margin            : 0 8px 0 8px;
-                height            : 100%;
-                vertical-align: middle;
-            }
-        }
-        .userMoviesRow{
-          height       : 40%;
-          overflow-x   : scroll;
-          white-space  : nowrap;
-          border-top: solid;
-          border-bottom: solid;
-          padding-top: 0.6%;
-            .userMoviesBoxes {
-              // background-color: #333;
-              height              : 97%;
-            }
-            .userMoviesBoxes img {
-                // display: inline-block;
-                margin            : 0 8px 0 8px;
-                height            : 100%;
-            }
-        }
-    }
+          }
+      }
+
+      .userMoviesRow{
+        height       : 40%;
+        overflow-x   : scroll;
+        white-space  : nowrap;
+        border-top: solid;
+        border-bottom: solid;
+        padding-top: 0.6%;
+          .userMoviesBoxes {
+            // background-color: #333;
+            height              : 97%;
+          }
+          .userMoviesBoxes img {
+              // display: inline-block;
+              margin            : 0 8px 0 8px;
+              height            : 100%;
+          }
+      }
+
 
     #modalPosterImg img {
       width      : 100%
@@ -149,5 +137,5 @@
       -ms-transform       : scale(1);
       transform           : scale(1);
     }
-
+  }
 }
