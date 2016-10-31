@@ -147,8 +147,8 @@
     left:       0;
     height:     100%;
     width:      100%;
-    background: rgba( 255, 255, 255, .8 ) 
-                url('http://i.stack.imgur.com/FhHRx.gif') 
+    background: rgba( 255, 255, 255, 0.2 ) 
+                url('http://66.media.tumblr.com/tumblr_m7l7n6gWuD1qg6rkio1_r1_500.gif')
                 50% 50% 
                 no-repeat;
   }
@@ -162,10 +162,12 @@
   }
 
   #searchRemoteBtn {
+    position: relative;
+    top: -100px;
     display: inline-block;
 
     img {
-      max-height: 70px;
+      max-height: 100px;
     }
   }
 

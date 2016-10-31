@@ -70,7 +70,7 @@ function generateLibraryMovies(movies){
 function insertToLibraryMovie(movie_id, release_date, movie_title, poster_path){
 
   console.log("starting to insert upcoming movies");
-  var template =  '<div class="hovereffect2 thisMovie" id="'              +
+  var template =  '<div class="hovereffect2 thisMovie .col-xs-3" id="'              +
                   movie_id                                                +
                   '"data-toggle="modal" data-target=".modal"><img src="' +
                   poster_path                                             +
