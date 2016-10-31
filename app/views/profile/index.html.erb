@@ -14,13 +14,13 @@
 					<form id="edit-form">
 						<div class="form-group row">
 							<label for="editNameInput" class="col-xs-4 col-form-label">Name</label>
-							<div class="col-xs-8">
+							<div class="col-xs-7">
 								<input type="text" class="form-control" id="editNameInput" placeholder="Enter name">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label for="editEmailInput" class="col-xs-4 col-form-label">Email</label>
-							<div class="col-xs-8">
+							<div class="col-xs-7">
 								<input type="email" class="form-control" id="editEmailInput" placeholder="Enter email">
 							</div>
 						</div>
@@ -34,7 +34,34 @@
 			</div>
 			<div class="col-xs-6 col-md-8">
 				<div class="row" id="movieDisplay">
+					<div class="row" id="libraryMoviesRow">
+						<div id="libraryMoviesBox">
+						</div>
+					</div>
 				</div>
+			</div>
+			<div class="modal fade" tabindex="-1" role="dialog">
+			  <div class="modal-dialog modal-lg" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title">Modal title</h4>
+			      </div>
+			      <div class="modal-body">
+			        <div class="container col-md-12">
+			            <div class="row">
+			                <div class="col-md-4" id="posterAndDetails">
+			                </div>
+			                <div class="col-md-8" id="trailerAndPlot">
+			                </div>
+			          </div>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        <button type="button" class="btn btn-primary">Save changes</button>
+			      </div>
+			    </div>
+			  </div>
 			</div>
 		</div>
 	</div>

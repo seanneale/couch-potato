@@ -82,12 +82,12 @@ function getUpcomingMovies(){
       url      : '/api/movies/upcoming'
   }).success(function(resp){
     console.log('successful in getting upcoming');
-    generateUpcomingMovies(resp);
+    generateSuggestedMovies(resp,'#upcomingMoviesBox');
   }); // close success, ajax
 } // close getUpcomingMovies
 
 
-function generateUpcomingMovies(movies){
+function generateSuggestedMovies(movies,destination){
 
   console.log("starting to generate upcoming movies");
   var base_path        = "https://image.tmdb.org/t/p/original";
@@ -100,13 +100,13 @@ function generateUpcomingMovies(movies){
     var release_date   = movies[i].release_date;
     var movie_id       = movies[i].id;
     //appending a div to upComingMoviesBox
-    insertToUpcomingMovie(movie_id, release_date, movie_title, poster_path);
+    insertToSuggestedMovie(movie_id, release_date, movie_title, poster_path,destination);
   }; // close for loop
 
 } // close generateUpcoming Movies
 
 
-function insertToUpcomingMovie(movie_id, release_date, movie_title, poster_path){
+function insertToSuggestedMovie(movie_id, release_date, movie_title, poster_path,destination){
 
   console.log("starting to insert upcoming movies");
   var template =  '<div class="hovereffect2 thisMovie" id="'              +
@@ -116,7 +116,7 @@ function insertToUpcomingMovie(movie_id, release_date, movie_title, poster_path)
                   '"><div class="overlay"><h2>'                           +
                   release_date                                            +
                   '</h2><a class="info" href="" id="addToWantToWatch">++</a><a class="info" href="" id="addToSeen">Seen</a></div></div>';
-  $('#upcomingMoviesBox').append(template);
+  $(destination).append(template);
     // On Click '+', if usermovie does not exist, add to usermovies list
   addToWantToWatchList();
   // On Click '+', if usermovie does not exist, add to usermovies list
@@ -170,6 +170,10 @@ function generateUserMovies(usermovies){
     // if user has seen the movie vs not seen the movie
     if (usermoviesArray[i].seen) {
       insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId);
+      // if (usermoviesArray[i].rated){
+      //   $('.overlay').html('');
+      //   $('.overlay').append('<a class="info setLoved" href="" >loved</a>');
+      // };
     } else {
       insertToWantToWatchList(movie_id, release_date, movie_title, postser_path, usermovieId)
     }; // close if statement
@@ -186,14 +190,13 @@ function insertToSeenMovieList(movie_id, release_date, movie_title, postser_path
                  postser_path                                          +
                  '"><div class="overlay" id="'                         +
                  usermovieId                                           +
-                 '"><h2>'                                              +
-                 movie_title                                           +
-                 '</h2><a class="info" href="" id="setLoved">loved</a><a class="info" href="" id="setNeutral">Neutral</a></div></div>';
-
+                 '"><a class="info setNeutral" href="" >Neutral</a></div></div>';
   console.log("Seen List --  " + movie_title);
   console.log(usermovieId);
   $('#seenBox').append(template);
-  $('.overlay #setLoved').hide();
+
+
+
   NeutralClickedUpdateToLoved();
   LovedClickedUpdateToNeutral()
   getMovieModal();
@@ -209,9 +212,7 @@ function insertToWantToWatchList(movie_id, release_date, movie_title, postser_pa
                  postser_path                                          +
                  '"><div class="overlay" id="'                         +
                  usermovieId                                           +
-                 '"><h2>'                                              +
-                 movie_title                                           +
-                 '</h2><a class="info" href="" id="addToSeenFromWant">Seen</a></div></div>';
+                 '"><a class="info" href="" id="addToSeenFromWant">Seen</a></div></div>';
 
   console.log("Want To Watch List -- " + movie_title);
   console.log(usermovieId)
@@ -431,14 +432,15 @@ function updateUserMovie(updateUserMovieData, usermovieId){
 //---------------------------------------------------\\
 
 function NeutralClickedUpdateToLoved(){
-$('.overlay #setNeutral').off().click(function(e){
+$('.overlay .setNeutral').off().click(function(e){
 
     e.preventDefault();
     e.stopPropagation()
-    $('.overlay #setNeutral').hide();
-    $('.overlay #setLoved').show();
     console.log("neutral clicked ... ---> .... loved set");
     var usermovieId          = $(this).parent().attr('id');
+    $('.thisMovie'+' #'+usermovieId+', this').html('');
+    console.log($('.thisMovie'+' #'+usermovieId+', this'))
+    $('.thisMovie'+' #'+usermovieId+', this').append('<a class="info setLoved" href="" >loved</a>');
     // console.log(usermovieId);
 // // need usermovie
 //     // console.log(typeof(movieId));
@@ -456,14 +458,16 @@ $('.overlay #setNeutral').off().click(function(e){
 }; // close updateToLoved
 
 function LovedClickedUpdateToNeutral(){
-  $('.overlay #setLoved').off().click(function(e){
+  $('.overlay .setLoved').off().click(function(e){
 
     e.preventDefault();
     e.stopPropagation()
-    $('.overlay #setNeutral').show();
-    $('.overlay #setLoved').hide();
     console.log("love clicked ... ---> .... neutralset");
     var usermovieId          = $(this).parent().attr('id');
+    $('.thisMovie'+' #'+usermovieId+', this').html('');
+    console.log($('.thisMovie'+' #'+usermovieId+', this'))
+
+    $('.thisMovie'+' #'+usermovieId+', this').append('<a class="info setNeutral" href="" >Neutral</a>');
     var updateUserMovieData   = {
                             seen       : true,
                             rated      : false,
@@ -626,6 +630,8 @@ $('.home.index').ready(function(){
   neutralFilter();
   allFilter();
   searchLocalEventListener();
+  $('.searchMoviesHeader').hide();
+  $('#searchMoviesRow').hide();
 }); // close (.home.index).ready
 
 
@@ -634,26 +640,29 @@ $('.home.index').ready(function(){
 function searchLocalEventListener(){
   $('#searchLocalBtn').on('click',function(){
     var searchField = $('#searchBox').val()
-    console.log(searchField);
+    $('#searchMoviesBox').html("");
     $.ajax({
       method: 'GET',
       url: '/api/movies/search-local',
       data: {title: searchField}
     }).success(function(resp){
-      $('#searchResults').html("");
+      $('.searchMoviesHeader').show();
+      $('#searchMoviesRow').show();
       if(resp.length == 0){
         moreResults = "<li>" +
-                        "<div class='col-xs-12' id='searchRemoteBtn'>For more results click here..</div>" +
+                        "<div class='col-xs-12' id='searchRemoteBtn></div>" +
                       "</li>";
         $('#searchResults').append(moreResults);
         searchRemoteResult();
       } else {
         for(var i = 0; i < resp.length; i++){
-          newElem = "<li>" +
-                      "<div class='col-xs-10'>" + resp[i].title + " " + resp[i].release_date + "</div>" +
-                      "<div class='col-xs-2' data-id=" + resp[i].id + ">Icons go here</div>" +
-                    "</li>";
-          $('#searchResults').append(newElem);
+          var base_path      = "https://image.tmdb.org/t/p/original";
+          var poster_path    = base_path + resp[i].poster_path;
+          var movie_title    = resp[i].title;
+          var release_date   = resp[i].release_date;
+          var movie_id       = resp[i].id;
+          //appending a div to upComingMoviesBox
+          insertToSuggestedMovie(movie_id, release_date, movie_title, poster_path,'#searchMoviesBox');
         }
         moreResults = "<li>" +
                         "<div class='col-xs-12' id='searchRemoteBtn'>For more results click here..</div>" +
@@ -677,11 +686,13 @@ function searchRemoteResult(){
   }).success(function(resp){
     console.log(resp);
     for(var i = 0; i < resp.length; i++){
-      newElem = "<li>" +
-                  "<div class='col-xs-10'>" + resp[i].title + " " + resp[i].release_date + "</div>" +
-                  "<div class='col-xs-2' data-id=" + resp[i].id + ">Icons go here</div>" +
-                "</li>";
-      $('#searchResults').append(newElem);
+      var base_path      = "https://image.tmdb.org/t/p/original";
+      var poster_path    = base_path + resp[i].poster_path;
+      var movie_title    = resp[i].title;
+      var release_date   = resp[i].release_date;
+      var movie_id       = resp[i].id;
+      //appending a div to upComingMoviesBox
+      insertToSuggestedMovie(movie_id, release_date, movie_title, poster_path,'#searchMoviesBox');
       $('#searchRemoteBtn').parent().remove();
     }
   })
