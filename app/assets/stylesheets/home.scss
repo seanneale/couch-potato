@@ -4,15 +4,15 @@
     margin-top : 65px;
     // background: yellow;
     height     : 700px;
-      #upcomingMoviesRow{
+      #upcomingMoviesRow, #searchMoviesRow{
         height       : 40%;
         overflow-x   : scroll;
         white-space  : nowrap;
-          #upcomingMoviesBox {
+          #upcomingMoviesBox, #searchMoviesBox {
             // background-color: #333;
             height              : 100%;
           }
-          #upcomingMoviesBox img {
+          #upcomingMoviesBox img, #searchMoviesBox img {
               // display: inline-block;
               margin            : 0 5px 0 5px;
               height            : 100%;
