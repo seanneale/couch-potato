@@ -161,5 +161,12 @@
     display: block;
   }
 
+  #searchRemoteBtn {
+    display: inline-block;
+
+    img {
+      max-height: 70px;
+    }
+  }
 
 }

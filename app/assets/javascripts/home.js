@@ -666,10 +666,8 @@ function searchLocalEventListener(){
           //appending a div to upComingMoviesBox
           insertToSuggestedMovie(movie_id, release_date, movie_title, poster_path,'#searchMoviesBox');
         }
-        moreResults = "<li>" +
-                        "<div class='col-xs-12' id='searchRemoteBtn'>For more results click here..</div>" +
-                      "</li>";
-        $('#searchResults').append(moreResults);
+        moreResults = '<div class="thisMovie" id="searchRemoteBtn"><img src="https://azure.microsoft.com/svghandler/search/?width=600&height=315"></div>';
+        $('#searchMoviesBox').append(moreResults);
         $('#searchRemoteBtn').on('click',function(){
           searchRemoteResult();
         })
@@ -681,7 +679,6 @@ function searchLocalEventListener(){
 }
 
 function searchRemoteResult(){
-  $('#searchRemoteBtn').text("Oooh, going a little further for these results, please be patient")
   $("body").addClass("loading");
   $(".loadingModal").modal();
   var searchField = $('#searchBox').val()
@@ -699,8 +696,8 @@ function searchRemoteResult(){
       var movie_id       = resp[i].id;
       //appending a div to upComingMoviesBox
       insertToSuggestedMovie(movie_id, release_date, movie_title, poster_path,'#searchMoviesBox');
-      $('#searchRemoteBtn').parent().remove();
     }
+    $('#searchRemoteBtn').remove();
     $(".loadingModal").modal('hide')
     $("body").removeClass("loading");
   })
