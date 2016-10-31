@@ -6,8 +6,8 @@ task :create_upcoming_movies => :environment do
 	# set all upcoming flags to false
 	# done
 	Movie.update_all "upcoming = false"
-	# use old method to get the 'upcoming films' 
-	# 
+	# use old method to get the 'upcoming films'
+	#
 	Tmdb::Api.key('080c6e21243c377d80ac2754b8827b4f')
     @movies = Tmdb::Movie.upcoming
     @movies.each do |movie|
@@ -15,7 +15,7 @@ task :create_upcoming_movies => :environment do
 		# puts @movie_params
 		if @movie = Movie.find_by(tmdb_id: tmdb_id)
 			@movie.update(upcoming: true)
-		else 
+		else
 			trailers = Tmdb::Movie.trailers(tmdb_id)
 			trailers["youtube"] && trailers["youtube"][0] ? trailer = trailers["youtube"][0]["source"] : trailer = 'no source'
 			credit_details = Tmdb::Movie.credits(tmdb_id)
