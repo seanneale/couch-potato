@@ -641,6 +641,8 @@ function searchLocalEventListener(){
   $('#searchLocalBtn').on('click',function(){
     var searchField = $('#searchBox').val()
     $('#searchMoviesBox').html("");
+    $("body").addClass("loading");
+    $(".loadingModal").modal();
     $.ajax({
       method: 'GET',
       url: '/api/movies/search-local',
@@ -671,6 +673,8 @@ function searchLocalEventListener(){
         $('#searchRemoteBtn').on('click',function(){
           searchRemoteResult();
         })
+        $(".loadingModal").modal('hide');
+        $("body").removeClass("loading");
       }
     })
   });
@@ -678,6 +682,8 @@ function searchLocalEventListener(){
 
 function searchRemoteResult(){
   $('#searchRemoteBtn').text("Oooh, going a little further for these results, please be patient")
+  $("body").addClass("loading");
+  $(".loadingModal").modal();
   var searchField = $('#searchBox').val()
   $.ajax({
     method: 'GET',
@@ -695,6 +701,8 @@ function searchRemoteResult(){
       insertToSuggestedMovie(movie_id, release_date, movie_title, poster_path,'#searchMoviesBox');
       $('#searchRemoteBtn').parent().remove();
     }
+    $(".loadingModal").modal('hide')
+    $("body").removeClass("loading");
   })
 }
 
