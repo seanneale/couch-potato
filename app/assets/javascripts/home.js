@@ -37,12 +37,13 @@ function generateMovieDetails(movie){
   var director           = movie.director;
   var writer             = movie.writer;
   var cast               = movie.cast;
-  insertToModal(movie_title, poster_path, trailer_path, overview, release_date, director, writer, cast)
+  var movieId            = movie.id;
+  insertToModal(movie_title, poster_path, trailer_path, overview, release_date, director, writer, cast, movieId)
   // console.log(movie.title)
   // console.log(movie.trailer_path)
 }; // close generateMovieDetails
 
-function insertToModal(movie_title, poster_path, trailer_path, overview, release_date, director, writer, cast){
+function insertToModal(movie_title, poster_path, trailer_path, overview, release_date, director, writer, cast, movieId){
 
   // console.log(movie_title)
   // Title: Release Date: Director: Writer: Case:"
@@ -70,7 +71,109 @@ function insertToModal(movie_title, poster_path, trailer_path, overview, release
   $('.modal-title').html(movie_title);
   $('#posterAndDetails').html(posterAndDetailsTemplate);
   $('#trailerAndPlot').html(trailerAndPlotTemplate)
+  modalAddToWantToWatchList(movieId);
+  modalAddToSeenList(movieId);
+  modalDeleteUserMovie(movieId);
 }; // close insertToModal
+
+function modalDeleteUserMovie(movieId){
+
+  $('#modalDeleteUserMovie').off().click(function(e){
+
+    e.preventDefault();
+    e.stopPropagation()
+    var userId                = $('.UpcomingMoviesHeader').attr('id')
+    userId                    = parseInt(userId)
+    console.log("User's ID: "+ userId);
+
+    $.ajax({
+      method      : 'GET',
+      url         : '/api/user/movies',
+      dataType    : 'json',
+      success     : function(resp) {
+        // console.log(movieId);
+        var array = resp.user_movie;
+        var obj = array.filter(function(obj){
+          return obj.movie_id == movieId;
+        })[0];
+        // console.log(array);
+        // console.log(obj);
+        // console.log(obj.id);
+        usermovieId = obj.id
+        // var usermovieId = obj.id
+        // console.log(usermovieId);
+        ajaxDelete(usermovieId);
+      },
+      error       : function(resp) {
+        console.log("something went wrong... opps")
+      }
+    });
+
+  }); // close $('.overlay #addToSeen')
+
+} // close addSeenList
+
+function ajaxDelete(usermovieId) {
+  $.ajax({
+    method      : 'DELETE',
+    url         : '/api/user/movies/' + usermovieId,
+    success     : function(resp) {
+                    console.log('deleting usermovie');
+                    console.log(resp);
+                    $('#seenBox').html('');
+                    $('#wantToWatchBox').html('');
+                    getUserMoviesLists();
+                  },
+    error       : function(resp) {
+                    console.log(resp);
+                    console.log("ajax error");
+                  }
+  }); // close success, ajax
+}
+
+function modalAddToSeenList(movieId){
+
+  $('#modalAddToSeen').off().click(function(e){
+
+    e.preventDefault();
+    e.stopPropagation()
+    var userId                = $('.UpcomingMoviesHeader').attr('id')
+    userId                    = parseInt(userId)
+    console.log("Clicked on Add To Seen, This Movie ID is " + movieId);
+    console.log("User's ID: "+ userId);
+
+    var createUserMovieData   = {
+                            movie_id   : movieId,
+                            user_id    : userId,
+                            seen       : true,
+                            rated      : false,
+    }; // close createUserMovieData
+
+    createUserMovie(createUserMovieData);
+
+  }); // close $('.overlay #addToSeen')
+
+} // close addSeenList
+function modalAddToWantToWatchList(movieId){
+  $('#modalAddToWant').off().click(function(e){
+    e.preventDefault();
+    e.stopPropagation()
+    var userId                = $('.UpcomingMoviesHeader').attr('id')
+    userId                    = parseInt(userId)
+    console.log("Clicked on Add To Want, This Movie ID is " + movieId);
+    console.log("User's ID: "+ userId);
+    // console.log(typeof(movieId));
+    // console.log(typeof(userId));
+    var createUserMovieData   = {
+                            movie_id   : movieId,
+                            user_id    : userId,
+                            seen       : false,
+                            rated      : false,
+                            }; // close createUserMovieData
+    createUserMovie(createUserMovieData);
+  }); // close $('.overlay #addToWantToWatch')
+}; // close modalAddToWantToWatchList
+
 
 
 // UPCOMING MOVIES
