@@ -167,9 +167,11 @@ function generateUserMovies(usermovies){
     var movie_title       = usermovie.title;
     var release_date      = usermovie.release_date;
     var movie_id          = usermovie.id;
+    var rated             = usermoviesArray[i].rated
+    console.log("HELLLLLOOO "+usermoviesArray[i].rated)
     // if user has seen the movie vs not seen the movie
     if (usermoviesArray[i].seen) {
-      insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId);
+      insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId, rated);
       // if (usermoviesArray[i].rated){
       //   $('.overlay').html('');
       //   $('.overlay').append('<a class="info setLoved" href="" >loved</a>');
@@ -182,19 +184,29 @@ function generateUserMovies(usermovies){
 }; // close generateUserMovies
 
 
-function insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId){
+function insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId, rated){
 
-  var template = '<div class="hovereffect2 thisMovie" id="'            +
+  var templateRatedFalse = '<div class="hovereffect2 thisMovie" id="'            +
                  movie_id                                              +
                  '"data-toggle="modal" data-target=".modal"><img src="'+
                  postser_path                                          +
                  '"><div class="overlay" id="'                         +
                  usermovieId                                           +
                  '"><a class="info setNeutral" href="" >Neutral</a></div></div>';
+  var templateRatedTrue = '<div class="hovereffect2 thisMovie" id="'            +
+                 movie_id                                              +
+                 '"data-toggle="modal" data-target=".modal"><img src="'+
+                 postser_path                                          +
+                 '"><div class="overlay" id="'                         +
+                 usermovieId                                           +
+                 '"><a class="info setLoved" href="" >loved</a></div></div>';
   console.log("Seen List --  " + movie_title);
   console.log(usermovieId);
-  $('#seenBox').append(template);
-
+  if (rated){
+    $('#seenBox').append(templateRatedTrue);
+  }else{
+    $('#seenBox').append(templateRatedFalse);
+  };
 
 
   NeutralClickedUpdateToLoved();
@@ -220,7 +232,7 @@ function insertToWantToWatchList(movie_id, release_date, movie_title, postser_pa
   addToSeenFromWant()
   getMovieModal();
 
-} // close insertToSeenMovieList
+} // close insertToWantToWatchList
 
 
 
@@ -293,10 +305,12 @@ function getSeenMovieDetails(movie){
     })[0];
     // console.log(array);
     // console.log(obj);
+    var rated = obj.rated
+    console.log("LOOOOOKKKK "+rated)
     var usermovieId = obj.id
     console.log (usermovieId)
     console.log(movie_title)
-    insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId)
+    insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId, rated)
   }); // close success, ajax
 
 
@@ -528,9 +542,10 @@ function generateLovedMovies(usermovies){
     var movie_title       = usermovie.title;
     var release_date      = usermovie.release_date;
     var movie_id          = usermovie.id;
+    var rated             = usermoviesArray[i].rated
     // if user has loved the movie vs not seen the movie
     if (usermoviesArray[i].rated) {
-      insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId);
+      insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId, rated);
     }; // close if statement
   }; // close for loop
 }; // close generateLovedMovies
@@ -564,9 +579,10 @@ function generateNeutralMovies(usermovies){
     var movie_title       = usermovie.title;
     var release_date      = usermovie.release_date;
     var movie_id          = usermovie.id;
+    var rated             = usermoviesArray[i].rated
     // if user has loved the movie vs not seen the movie
-    if (!usermoviesArray[i].rated) {
-      insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId);
+    if (!usermoviesArray[i].rated && usermoviesArray[i].seen) {
+      insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId, rated);
     }; // close if statement
   }; // close for loop
 }; // close generateLovedMovies
@@ -599,8 +615,11 @@ function generateAllMovies(usermovies){
     var movie_title       = usermovie.title;
     var release_date      = usermovie.release_date;
     var movie_id          = usermovie.id;
+    var rated             = usermoviesArray[i].rated
     // if user has loved the movie vs not seen the movie
-    insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId);
+    if (usermoviesArray[i].seen) {
+      insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId, rated);
+    }
   }; // close for loop
 }; // close generateLovedMovies
 
