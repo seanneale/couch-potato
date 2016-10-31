@@ -36,17 +36,19 @@ Tmdb::Api.key('080c6e21243c377d80ac2754b8827b4f')
 	@trailers = Tmdb::Movie.trailers(@tmdb_id)
 	@trailers["youtube"][0] ? @trailer = @trailers["youtube"][0]["source"] : @trailer = 'no source'
 	@credit_details = Tmdb::Movie.credits(@tmdb_id)
-	@director = @credit_details["crew"].find { |key| key['job'] == "Director"}
-	@director ? @director = @director["name"] : @director = "no source"
-	@writer = @credit_details["crew"].find { |key| key['job'] == "Screenplay" || key['job'] == "Writer"}
-	@writer ? @writer = @writer['name'] : @writer = "no source"
-	@cast = @credit_details["cast"]
-	@cast[0] ? @cast0 = @cast[0]["name"] : @cast0 = 'no source'
-	@cast[1] ? @cast1 = @cast[1]["name"] : @cast1 = 'no source'
-	@cast[2] ? @cast2 = @cast[2]["name"] : @cast2 = 'no source'
-	@cast = "#{@cast0}, #{@cast1} & #{@cast2}"
-	if @trailer != "no source" && movie.release_date
-		Movie.create(tmdb_id: movie.id, title: movie.title, release_date: movie.release_date, poster_path: movie.poster_path, overview: movie.overview, background_path: movie.backdrop_path, trailer_path: @trailer, director: @director, writer: @writer, cast: @cast, loved_counter: 0, unloved_counter: 0, upcoming: :false)
+	if @credit_details["crew"] && @credit_details["cast"]
+		@director = @credit_details["crew"].find { |key| key['job'] == "Director"}
+		@director ? @director = @director["name"] : @director = "no source"
+		@writer = @credit_details["crew"].find { |key| key['job'] == "Screenplay" || key['job'] == "Writer"}
+		@writer ? @writer = @writer['name'] : @writer = "no source"
+		@cast = @credit_details["cast"]
+		@cast[0] ? @cast0 = @cast[0]["name"] : @cast0 = 'no source'
+		@cast[1] ? @cast1 = @cast[1]["name"] : @cast1 = 'no source'
+		@cast[2] ? @cast2 = @cast[2]["name"] : @cast2 = 'no source'
+		@cast = "#{@cast0}, #{@cast1} & #{@cast2}"
+		if @trailer != "no source" && movie.release_date
+			Movie.create(tmdb_id: movie.id, title: movie.title, release_date: movie.release_date, poster_path: movie.poster_path, overview: movie.overview, background_path: movie.backdrop_path, trailer_path: @trailer, director: @director, writer: @writer, cast: @cast, loved_counter: 0, unloved_counter: 0, upcoming: :false)
+		end
 	end
 end
 
@@ -57,15 +59,15 @@ end
 	Genre.create(name: @name, tmdb_id: @tmdb_genre_id)
 end
 
-@movies = Movie.all
-@movies.each do |movie|
-	puts movie.title
-	@movie_info = Tmdb::Movie.detail(movie.tmdb_id)
-	@movie_info["genres"].each do |genre|
-		@genre_id = Genre.all.find {|key| key['tmdb_id'] == genre['id']}
-		movie.movie_genres.create(genre_id: @genre_id["id"])
-	end
-end
+# @movies = Movie.all
+# @movies.each do |movie|
+# 	puts movie.title
+# 	@movie_info = Tmdb::Movie.detail(movie.tmdb_id)
+# 	@movie_info["genres"].each do |genre|
+# 		@genre_id = Genre.all.find {|key| key['tmdb_id'] == genre['id']}
+# 		movie.movie_genres.create(genre_id: @genre_id["id"])
+# 	end
+# end
 
 @users = User.all
 @users.each do |user|
