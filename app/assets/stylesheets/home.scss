@@ -8,6 +8,7 @@
 
       h1 {
         text-align: center;
+        color: white;
       }
       #filters {
         text-align: center;
@@ -21,8 +22,8 @@
         height       : 40%;
         overflow-x   : scroll;
         white-space  : nowrap;
-        border-top: solid;
-        border-bottom: solid;
+        border-top: solid 1px white;
+        border-bottom: solid 1px white;
         padding-top: 0.6%;
           #upcomingMoviesBox, #searchMoviesBox {
             // background-color: #333;
@@ -41,8 +42,8 @@
         height       : 40%;
         overflow-x   : scroll;
         white-space  : nowrap;
-        border-top: solid;
-        border-bottom: solid;
+        border-top: solid 1px white;
+        border-bottom: solid 1px white;
         padding-top: 0.6%;
           .userMoviesBoxes {
             // background-color: #333;

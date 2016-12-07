@@ -19,6 +19,22 @@ $icon-font-path: "bootstrap-sass/assets/fonts/bootstrap/";
 @import "bootstrap-sass/assets/stylesheets/bootstrap-sprockets";
 @import "bootstrap-sass/assets/stylesheets/bootstrap";
 
+body {
+  background-image: url("http://i.imgur.com/s6fnR5g.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  // background: rgba(0,0,0,0.9);
+}
+
+  .navbar {
+    background: rgba(0,0,0,0);
+    a {
+      color: white;
+      }
+  }
 // @font-face {
 //   font-family: 'Glyphicons Halflings';
 
