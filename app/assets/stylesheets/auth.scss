@@ -3,5 +3,16 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .auth.index {
-
+  .authPage {
+    float: none;
+    margin: 0 auto;
+    color: white;
+    form{
+      float: none;
+      margin: 0 auto;
+      button {
+        color: black;
+      }
+    }
+  }
 }
