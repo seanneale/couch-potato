@@ -4,8 +4,22 @@
 
 .profile.index {
 
+	color: white;
+	button {
+		color: black;
+		width: 100px;
+		border-radius: 4px;
+		margin-top: 20px;
+		margin-bottom: 10px;
+	}
+	// #showEditSection{
+	// }
+
+	.profileDetails {
+		margin-top: 40px;
+	}
 	#movieDisplay {
-		margin-top : 65px;
+		// margin-top : 65px;
 		// background: yellow;
 		height     : 700px;
 		#libraryMoviesRow {

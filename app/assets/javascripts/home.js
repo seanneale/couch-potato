@@ -365,18 +365,24 @@ function createUserMovie(createUserMovieData){
 function appendNewUserMovie(movie){
   var movieId = movie.movie_id
   if (movie.seen) {
+    ////////////////////////////////////////////////////////<<<<<<<<<<<<<<<<<<<<<<<<<<< error
     ajaxAppendSeenMovie(movieId)
+    ////////////////////////////////////////////////////////<<<<<<<<<<<<<<<<<<<<<<<<<<< error
     } else {
             ajaxAppendNotSeenMovie(movieId)
     };
 
 }
+////////////////////////////////////////////////////////<<<<<<<<<<<<<<<<<<<<<<<<<<< error
 function ajaxAppendSeenMovie(movieId){
+////////////////////////////////////////////////////////<<<<<<<<<<<<<<<<<<<<<<<<<<< error
   $.ajax({
     method   : 'GET',
     url      : '/api/movies/'+movieId
   }).success(function(resp){
+    ////////////////////////////////////////////////////////<<<<<<<<<<<<<<<<<<<<<<<<<<< error
     getSeenMovieDetails(resp);
+    ////////////////////////////////////////////////////////<<<<<<<<<<<<<<<<<<<<<<<<<<< error
   }); // close success, ajax
 }
 function ajaxAppendNotSeenMovie(movieId){
@@ -388,9 +394,9 @@ function ajaxAppendNotSeenMovie(movieId){
   }); // close success, ajax
 }
 
-
+////////////////////////////////////////////////////////<<<<<<<<<<<<<<<<<<<<<<<<<<< error
 function getSeenMovieDetails(movie){
-
+////////////////////////////////////////////////////////<<<<<<<<<<<<<<<<<<<<<<<<<<< error
   var base_path         = "https://image.tmdb.org/t/p/original";
   var postser_path      = base_path + movie.poster_path;
   var movie_title       = movie.title;
@@ -409,10 +415,11 @@ function getSeenMovieDetails(movie){
     // console.log(array);
     // console.log(obj);
     var rated = obj.rated
-    console.log("LOOOOOKKKK "+rated)
     var usermovieId = obj.id
+    console.log("LOOOOOKKKK "+rated)
     console.log (usermovieId)
     console.log(movie_title)
+
     insertToSeenMovieList(movie_id, release_date, movie_title, postser_path, usermovieId, rated)
   }); // close success, ajax
 
@@ -567,7 +574,8 @@ $('.overlay .setNeutral').off().click(function(e){
                             rated      : true,
 
                             }; // close updateUserMovie
-
+    NeutralClickedUpdateToLoved();
+    LovedClickedUpdateToNeutral();
     updateUserMoviePreferences(updateUserMovieData, usermovieId);
 
 
@@ -582,7 +590,7 @@ function LovedClickedUpdateToNeutral(){
     console.log("love clicked ... ---> .... neutralset");
     var usermovieId          = $(this).parent().attr('id');
     $('.thisMovie'+' #'+usermovieId+', this').html('');
-    console.log($('.thisMovie'+' #'+usermovieId+', this'))
+    console.log($('.thisMovie'+' #'+usermovieId+', this'));
 
     $('.thisMovie'+' #'+usermovieId+', this').append('<a class="info setNeutral" href="" >Neutral</a>');
     var updateUserMovieData   = {
@@ -590,6 +598,9 @@ function LovedClickedUpdateToNeutral(){
                             rated      : false,
 
                             }; // close updateUserMovie
+
+    NeutralClickedUpdateToLoved();
+    LovedClickedUpdateToNeutral();
     updateUserMoviePreferences(updateUserMovieData, usermovieId);
   });
 };
@@ -604,7 +615,9 @@ function updateUserMoviePreferences(updateUserMovieData, usermovieId){
                     console.log('finished running ajax PATCH usermovies');
                     console.log(resp);
                     var movieId = resp.movie_id;
+                    ////////////////////////////////////////////////////////<<<<<<<<<<<<<<<<<<<<<<<<<<< error
                     // ajaxAppendSeenMovie(movieId);
+                    ////////////////////////////////////////////////////////<<<<<<<<<<<<<<<<<<<<<<<<<<< error
                   },
     error       : function(resp) {
                     console.log(resp);
